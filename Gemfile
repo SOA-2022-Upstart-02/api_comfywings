@@ -8,6 +8,8 @@ gem 'figaro', '~> 1.2'
 gem 'rake', '~> 13.0'
 
 # PRESENTATION LAYER
+gem 'multi_json'
+gem 'roar'
 gem 'slim', '~> 4'
 
 # APPLICATION LAYER
