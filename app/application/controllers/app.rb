@@ -45,6 +45,29 @@ module ComfyWings
           }
         end
       end
+
+      routing.on 'api' do
+        routing.on 'trips' do
+          routing.on String do |query_code|
+            # GET /trips/{query_code}
+            routing.get do
+              result = Service::SearchTrips.new.call(query_code)
+              puts query_code
+              if result.failure?
+                failed = Representer::HttpResponse.new(result.failure)
+                routing.halt failed.http_status_code, failed.to_json
+              end
+
+              http_response = Representer::HttpResponse.new(result.value!)
+              response.status = http_response.http_status_code
+
+              Representer::Trips.new(
+                result.value!.message
+              ).to_json
+            end
+          end
+        end
+      end
     end
   end
 end

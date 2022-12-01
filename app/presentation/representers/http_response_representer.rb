@@ -3,7 +3,7 @@
 require 'roar/decorator'
 require 'roar/json'
 
-module CodePraise
+module ComfyWings
   module Representer
     # Representer for HTTP response information
     # Usage:
