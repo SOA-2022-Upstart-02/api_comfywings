@@ -2717,4 +2717,59 @@ http_interactions:
           } ]
         }
   recorded_at: Wed, 23 Nov 2022 14:25:53 GMT
+- request:
+    method: post
+    uri: https://test.api.amadeus.com/v2/shopping/flight-offers
+    body:
+      encoding: UTF-8
+      string: '{"currencyCode":"USD","originDestinations":[{"id":1,"originLocationCode":"TPE","destinationLocationCode":"MAD","departureDateTimeRange":{"date":"2022-12-31"}}],"travelers":[{"id":1,"travelerType":"ADULT"},{"id":2,"travelerType":"CHILD"},{"id":3,"travelerType":"CHILD"}],"sources":["GDS"]}'
+    headers:
+      Accept:
+      - application/vnd.amadeus+json
+      Authorization:
+      - Bearer ga0PwQbhGZG9yQsmJZywmdmRkZAm
+      Connection:
+      - close
+      Content-Type:
+      - application/json; charset=UTF-8
+      Host:
+      - test.api.amadeus.com
+      User-Agent:
+      - http.rb/5.1.0
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Fri, 02 Dec 2022 11:32:13 GMT
+      Content-Type:
+      - application/vnd.amadeus+json
+      Content-Length:
+      - '387'
+      Connection:
+      - close
+      Www-Authenticate:
+      - 'Bearer realm="null",error="invalid_token",error_description="keymanagement.service.invalid_access_token:
+        Invalid Access Token"'
+      Ama-Gateway-Request-Id:
+      - rrt-0160a27b14faae615-a-de-29335-259883437-1
+      Access-Control-Allow-Headers:
+      - origin, x-requested-with, accept, Content-Type, Authorization
+      Access-Control-Max-Age:
+      - '3628800'
+      Access-Control-Allow-Methods:
+      - "*"
+      Server:
+      - Amadeus
+      Access-Control-Allow-Origin:
+      - "*"
+    body:
+      encoding: ASCII-8BIT
+      string: "\n            {\n                \"errors\": [\n                        {\n
+        \                           \"code\": 38190,\n                            \"title\":
+        \"Invalid access token\",\n                            \"detail\": \"The access
+        token provided in the Authorization header is invalid\",\n                            \"status\":
+        401\n                        }\n                ]\n            }\n        "
+  recorded_at: Fri, 02 Dec 2022 11:32:13 GMT
 recorded_with: VCR 6.1.0

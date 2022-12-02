@@ -15,6 +15,10 @@ module ComfyWings
         rebuild_entity Database::TripQueryOrm.first(code:)
       end
 
+      def self.update_searched(id)
+        rebuild_entity Database::TripQueryOrm.first(id:).update(is_new: false)
+      end
+
       def self.create(entity)
         raise 'Query already exists' if find(entity)
 

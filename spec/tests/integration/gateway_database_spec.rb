@@ -17,6 +17,7 @@ describe 'Integration Tests of AMADEUS API and Database' do
 
   after do
     VcrHelper.eject_vcr
+    DatabaseHelper.wipe_database
   end
 
   describe 'Retrieve Currency By Currency Code' do
@@ -34,37 +35,43 @@ describe 'Integration Tests of AMADEUS API and Database' do
     end
   end
 
-  # describe 'Test TripQuery Repository' do
-  #   it 'Test Save new TripQuery and find TripQuery code' do
-  #     code = SecureRandom.uuid
-  #     currency = ComfyWings::Repository::For.klass(ComfyWings::Entity::Currency).find_code('TWD')
+  describe 'Test TripQuery Repository' do
+    it 'Test Save new TripQuery and find TripQuery code' do
+      code = SecureRandom.uuid
+      currency = ComfyWings::Repository::For.klass(ComfyWings::Entity::Currency).find_code('TWD')
 
-  #     trip_query = ComfyWings::Entity::TripQuery.new(
-  #       id: nil,
-  #       code:,
-  #       currency:,
-  #       origin: 'TPE',
-  #       destination: 'MAD',
-  #       departure_date: Date.parse('2001-02-03'),
-  #       arrival_date: Date.parse('2001-03-03'),
-  #       adult_qty: 1,
-  #       children_qty: 1,
-  #       is_one_way: true
-  #     )
+      trip_query = ComfyWings::Entity::TripQuery.new(
+        id: nil,
+        code:,
+        currency:,
+        origin: 'TPE',
+        destination: 'MAD',
+        departure_date: Date.parse('2001-02-03'),
+        arrival_date: Date.parse('2001-03-03'),
+        adult_qty: 1,
+        children_qty: 1,
+        is_one_way: true,
+        is_new: false
+      )
 
-  #     repository = ComfyWings::Repository::For.klass(ComfyWings::Entity::TripQuery)
+      repository = ComfyWings::Repository::For.klass(ComfyWings::Entity::TripQuery)
 
-  #     repository.create(trip_query)
-  #     trip_query = repository.find_code(code)
-  #     _(trip_query.origin).must_equal('TPE')
-  #     _(trip_query.currency.name).must_equal('New Taiwan dollar')
-  #   end
-  # end
+      repository.create(trip_query)
+      trip_query = repository.find_code(code)
+      _(trip_query.origin).must_equal('TPE')
+      _(trip_query.currency.name).must_equal('New Taiwan dollar')
+    end
+  end
 
   describe 'Test Trip information' do
     it 'HAPPY: should provide correct trip attributes' do
+      ComfyWings::Database::TripQueryOrm
+        .insert(currency_id: 2, code: QUERY_CODE, origin: 'TPE', destination: 'MAD',
+                departure_date: Date.parse('2022-12-31'), arrival_date: Date.parse('2023-01-29'),
+                adult_qty: 1, children_qty: 2, is_one_way: false, is_new: true)
+
       repository = ComfyWings::Repository::For.klass(ComfyWings::Entity::TripQuery)
-      trip_query = repository.find_code('temp_for_test')
+      trip_query = repository.find_code(QUERY_CODE)
       trips = ComfyWings::Amadeus::TripMapper.new(AMADEUS_KEY, AMADEUS_SECRET)
         .search(trip_query)
 

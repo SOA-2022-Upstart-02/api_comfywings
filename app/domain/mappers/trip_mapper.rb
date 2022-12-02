@@ -13,7 +13,6 @@ module ComfyWings
         @gateway = @gateway_class.new(@key, @secret)
       end
 
-      # TODO: change args to TripQuery
       def search(trip_query)
         trip_data = @gateway.trip_data(trip_query)
         aircraft_data = trip_data['dictionaries']['aircraft']

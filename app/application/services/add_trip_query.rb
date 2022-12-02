@@ -5,7 +5,7 @@ require 'digest'
 
 module ComfyWings
   module Service
-    # 
+    # get trip query from request object and create a new trip query if not exist in db
     class AddTripQuery
       include Dry::Transaction
 
@@ -16,13 +16,12 @@ module ComfyWings
 
       DB_ERR = 'Cannot access database'
 
-      # 
       def validate_trip_query(input)
         new_trip_query = input.call
         if new_trip_query.success?
           Success(new_trip_query.value!)
         else
-          Failure(list_request.failure)
+          Failure(new_trip_query.failure)
         end
       end
 

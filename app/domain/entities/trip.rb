@@ -3,8 +3,6 @@
 require 'dry-struct'
 require 'dry-types'
 
-# require_relative 'flight'
-
 module ComfyWings
   module Entity
     # class for trip entities
@@ -18,7 +16,7 @@ module ComfyWings
       attribute :destination,         Airport
       attribute :inbound_duration,    Strict::String
       attribute :outbound_duration,   Strict::String
-      attribute :price,               Strict::Decimal   # TODO: Extract as Value Object
+      attribute :price,               Strict::Decimal
       attribute :is_one_way,          Strict::Bool
       attribute :flights,             Strict::Array.of(Flight)
 
@@ -52,6 +50,10 @@ module ComfyWings
 
       def inbound_arrival_time
         inbound_flights.last.arrival_time
+      end
+
+      def price_form
+        "#{price.truncate}.#{format('%02d', (price.frac * 100).truncate)}"
       end
 
       def one_way?

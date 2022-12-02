@@ -5,6 +5,7 @@ require 'dry-struct'
 require 'dry-types'
 
 module ComfyWings
+  # ComfyWings Domain Modal
   module Entity
     # Domain entity for trip query arg
     class TripQuery < Dry::Struct
