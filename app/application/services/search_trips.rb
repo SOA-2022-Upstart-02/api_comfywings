@@ -18,30 +18,39 @@ module ComfyWings
 
       def valid_trip_query(query_code)
         trip_query = Repository::For.klass(Entity::TripQuery).find_code(query_code)
+        if trip_query.departure_date <= Date.today
+          Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR_MSG))
+        end
         Success(trip_query:)
       rescue StandardError => e
-        Failure(Response::ApiResult.new(status: :not_found, message: e.to_s))
+        puts e.backtrace.join("\n")
+        Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR_MSG))
       end
 
       def find_or_create_trips(input)
-        puts '====================================='
-        puts input[:trip_query]
-        trips = find_trips_from_database(input[:trip_query].id)
-        puts 'Not Found' if trips.empty?
-        # create_trips_from_amadeus(new_trip_query)
-        Success(Response::ApiResult.new(status: :ok, message: trips))
+        if input[:trip_query].is_new
+          create_trips_from_amadeus(input[:trip_query])
+        else
+          find_trips_from_database(input[:trip_query].id)
+        end
       rescue StandardError => e
         puts e.backtrace.join("\n")
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR_MSG))
       end
 
       def create_trips_from_amadeus(trip_query)
-        trips = Amadeus::TripMapper.new(App.config.AMADEUS_KEY, App.config.AMADEUS_SECRET).search(trip_query)
-        ComfyWings::Repository::For.klass(Entity::Trip).create_many(trips)
+        new_trips = Amadeus::TripMapper.new(App.config.AMADEUS_KEY, App.config.AMADEUS_SECRET).search(trip_query)
+        ComfyWings::Repository::For.klass(Entity::Trip).create_many(new_trips)
+          .then { |trips| Response::TripsList.new(trips) }
+          .then { |list| Response::ApiResult.new(status: :ok, message: list) }
+          .then { |result| Success(result) }
       end
 
       def find_trips_from_database(query_id)
         ComfyWings::Repository::For.klass(Entity::Trip).find_query_id(query_id)
+          .then { |trips| Response::TripsList.new(trips) }
+          .then { |list| Response::ApiResult.new(status: :ok, message: list) }
+          .then { |result| Success(result) }
       end
     end
   end

@@ -15,14 +15,15 @@ Sequel.migration do
       Integer     :adult_qty
       Integer     :children_qty
       TrueClass   :is_one_way
+      TrueClass   :is_new
     end
 
     # TODO: remove below after finish trip query feature
     from(:trip_queries).insert(currency_id: 2, code: 'temp_for_test', origin: 'TPE', destination: 'MAD',
                                departure_date: Date.parse('2022-12-31'), arrival_date: Date.parse('2023-01-29'),
-                               adult_qty: 1, children_qty: 2, is_one_way: false)
+                               adult_qty: 1, children_qty: 2, is_one_way: false, is_new: true)
     from(:trip_queries).insert(currency_id: 2, code: 'temp_for_test2', origin: 'TPE', destination: 'MAD',
                                departure_date: Date.parse('2022-12-31'), arrival_date: Date.parse('2023-01-29'),
-                               adult_qty: 1, children_qty: 2, is_one_way: true)
+                               adult_qty: 1, children_qty: 2, is_one_way: true, is_new: true)
   end
 end

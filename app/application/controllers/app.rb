@@ -20,7 +20,7 @@ module ComfyWings
 
     route do |routing|
       routing.assets # load CSS
-      response['Content-Type'] = 'text/html; charset=utf-8'
+      response['Content-Type'] = 'application/json'
 
       # GET /
       routing.root do
@@ -46,25 +46,40 @@ module ComfyWings
         end
       end
 
-      routing.on 'api' do
+      routing.on 'api' do # rubocop:disable Metrics/BlockLength
         routing.on 'trips' do
           routing.on String do |query_code|
             # GET /trips/{query_code}
             routing.get do
               result = Service::SearchTrips.new.call(query_code)
-              puts query_code
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)
                 routing.halt failed.http_status_code, failed.to_json
               end
-
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
-              Representer::Trips.new(
+              Representer::TripsList.new(
                 result.value!.message
               ).to_json
             end
+          end
+        end
+
+        routing.on 'trip_query' do
+          # POST /trip_query
+          routing.post do
+            trip_query = Request::NewTripQuery.new(routing.body.read)
+            result = Service::AddTripQuery.new.call(trip_query)
+
+            if result.failure?
+              failed = Representer::HttpResponse.new(result.failure)
+              routing.halt failed.http_status_code, failed.to_json
+            end
+
+            http_response = Representer::HttpResponse.new(result.value!)
+            response.status = http_response.http_status_code
+            Representer::TripQuery.new(result.value!.message).to_json
           end
         end
       end

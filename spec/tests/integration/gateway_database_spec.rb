@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../spec_helper'
+require_relative '../../helpers/spec_helper'
 require_relative '../../helpers/vcr_helper'
 require_relative '../../helpers/database_helper'
 require 'securerandom'
@@ -34,32 +34,32 @@ describe 'Integration Tests of AMADEUS API and Database' do
     end
   end
 
-  describe 'Test TripQuery Repository' do
-    it 'Test Save new TripQuery and find TripQuery code' do
-      code = SecureRandom.uuid
-      currency = ComfyWings::Repository::For.klass(ComfyWings::Entity::Currency).find_code('TWD')
+  # describe 'Test TripQuery Repository' do
+  #   it 'Test Save new TripQuery and find TripQuery code' do
+  #     code = SecureRandom.uuid
+  #     currency = ComfyWings::Repository::For.klass(ComfyWings::Entity::Currency).find_code('TWD')
 
-      trip_query = ComfyWings::Entity::TripQuery.new(
-        id: nil,
-        code:,
-        currency:,
-        origin: 'TPE',
-        destination: 'MAD',
-        departure_date: Date.parse('2001-02-03'),
-        arrival_date: Date.parse('2001-03-03'),
-        adult_qty: 1,
-        children_qty: 1,
-        is_one_way: true
-      )
+  #     trip_query = ComfyWings::Entity::TripQuery.new(
+  #       id: nil,
+  #       code:,
+  #       currency:,
+  #       origin: 'TPE',
+  #       destination: 'MAD',
+  #       departure_date: Date.parse('2001-02-03'),
+  #       arrival_date: Date.parse('2001-03-03'),
+  #       adult_qty: 1,
+  #       children_qty: 1,
+  #       is_one_way: true
+  #     )
 
-      repository = ComfyWings::Repository::For.klass(ComfyWings::Entity::TripQuery)
+  #     repository = ComfyWings::Repository::For.klass(ComfyWings::Entity::TripQuery)
 
-      repository.create(trip_query)
-      trip_query = repository.find_code(code)
-      _(trip_query.origin).must_equal('TPE')
-      _(trip_query.currency.name).must_equal('New Taiwan dollar')
-    end
-  end
+  #     repository.create(trip_query)
+  #     trip_query = repository.find_code(code)
+  #     _(trip_query.origin).must_equal('TPE')
+  #     _(trip_query.currency.name).must_equal('New Taiwan dollar')
+  #   end
+  # end
 
   describe 'Test Trip information' do
     it 'HAPPY: should provide correct trip attributes' do

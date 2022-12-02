@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/java/Desktop/SOA/api_comfywings/require_app.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/require_app.rb": {
         "lines": [
           null,
           null,
@@ -16,12 +16,12 @@
           1,
           null,
           1,
-          32,
+          36,
           null,
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/config/environment.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/config/environment.rb": {
         "lines": [
           null,
           null,
@@ -69,7 +69,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/infrastructure/database/airport_orm.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/infrastructure/database/airport_orm.rb": {
         "lines": [
           null,
           null,
@@ -89,7 +89,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/infrastructure/database/currency_orm.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/infrastructure/database/currency_orm.rb": {
         "lines": [
           null,
           null,
@@ -111,7 +111,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/infrastructure/database/flight_orm.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/infrastructure/database/flight_orm.rb": {
         "lines": [
           null,
           null,
@@ -130,7 +130,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/infrastructure/database/trip_orm.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/infrastructure/database/trip_orm.rb": {
         "lines": [
           null,
           null,
@@ -160,7 +160,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/infrastructure/database/trip_query_orm.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/infrastructure/database/trip_query_orm.rb": {
         "lines": [
           null,
           null,
@@ -179,7 +179,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/infrastructure/gateways/amadeus_api.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/infrastructure/gateways/amadeus_api.rb": {
         "lines": [
           null,
           null,
@@ -299,32 +299,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/entities/airport.rb": {
-        "lines": [
-          null,
-          null,
-          1,
-          1,
-          null,
-          1,
-          1,
-          null,
-          1,
-          1,
-          null,
-          1,
-          1,
-          1,
-          null,
-          1,
-          0,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/entities/currency.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/entities/airport.rb": {
         "lines": [
           null,
           null,
@@ -349,7 +324,32 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/entities/flight.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/entities/currency.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/entities/flight.rb": {
         "lines": [
           null,
           null,
@@ -381,14 +381,14 @@
           null,
           null,
           1,
-          0,
+          252,
           null,
           null,
           null,
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/entities/trip.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/entities/trip.rb": {
         "lines": [
           null,
           null,
@@ -415,35 +415,35 @@
           1,
           null,
           1,
-          0,
+          58,
           null,
           null,
           1,
-          0,
+          174,
           null,
           null,
           1,
-          0,
+          58,
           null,
           null,
           1,
-          0,
+          58,
           null,
           null,
           1,
-          0,
+          58,
           null,
           null,
           1,
-          0,
+          174,
           null,
           null,
           1,
-          0,
+          58,
           null,
           null,
           1,
-          0,
+          58,
           null,
           null,
           1,
@@ -458,7 +458,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/entities/trip_query.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/entities/trip_query.rb": {
         "lines": [
           null,
           null,
@@ -536,7 +536,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/mappers/airport_mapper.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/mappers/airport_mapper.rb": {
         "lines": [
           null,
           null,
@@ -596,7 +596,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/mappers/auth_token.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/mappers/auth_token.rb": {
         "lines": [
           null,
           null,
@@ -633,7 +633,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/mappers/flight_mapper.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/mappers/flight_mapper.rb": {
         "lines": [
           null,
           null,
@@ -722,7 +722,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/mappers/trip_mapper.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/mappers/trip_mapper.rb": {
         "lines": [
           null,
           null,
@@ -831,7 +831,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/repositories/airports.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/repositories/airports.rb": {
         "lines": [
           null,
           null,
@@ -852,9 +852,9 @@
           null,
           null,
           1,
-          0,
+          116,
           null,
-          0,
+          116,
           null,
           null,
           null,
@@ -875,7 +875,53 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/repositories/currencies.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/repositories/currencies.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          0,
+          null,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          1,
+          60,
+          null,
+          60,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          0,
+          0,
+          null,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/repositories/flights.rb": {
         "lines": [
           null,
           null,
@@ -896,67 +942,21 @@
           1,
           0,
           null,
-          null,
-          1,
-          0,
-          null,
-          0,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          1,
-          0,
-          0,
-          null,
-          null,
-          null,
-          1,
-          0,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/repositories/flights.rb": {
-        "lines": [
-          null,
-          null,
-          1,
-          null,
-          1,
-          1,
-          null,
-          1,
-          1,
-          0,
-          null,
-          null,
-          1,
-          0,
-          null,
-          null,
-          1,
-          0,
-          null,
           0,
           0,
           null,
           null,
           1,
-          0,
+          252,
           null,
-          0,
+          252,
           null,
           null,
           null,
           null,
           1,
-          0,
-          0,
+          58,
+          252,
           null,
           null,
           null,
@@ -964,7 +964,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/repositories/trips.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/repositories/trips.rb": {
         "lines": [
           null,
           null,
@@ -985,7 +985,7 @@
           null,
           null,
           1,
-          0,
+          1,
           null,
           null,
           null,
@@ -1018,13 +1018,15 @@
           1,
           0,
           0,
+          0,
+          0,
           null,
           null,
           null,
           1,
-          0,
+          58,
           null,
-          0,
+          58,
           null,
           null,
           null,
@@ -1035,8 +1037,8 @@
           null,
           null,
           1,
-          0,
-          0,
+          1,
+          58,
           null,
           null,
           null,
@@ -1048,7 +1050,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/repositories/for.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/repositories/for.rb": {
         "lines": [
           null,
           null,
@@ -1069,7 +1071,7 @@
           null,
           null,
           1,
-          1,
+          5,
           null,
           null,
           1,
@@ -1080,7 +1082,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/domain/repositories/trip_queries.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/domain/repositories/trip_queries.rb": {
         "lines": [
           null,
           null,
@@ -1096,7 +1098,7 @@
           null,
           null,
           1,
-          1,
+          2,
           null,
           null,
           1,
@@ -1109,9 +1111,9 @@
           null,
           null,
           1,
-          1,
+          2,
           null,
-          0,
+          1,
           null,
           null,
           null,
@@ -1128,7 +1130,33 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/presentation/representers/http_response_representer.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/presentation/representers/flight_representer.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null
+        ]
+      },
+      "/home/java/workspace/ComfyWings/api_comfywings/app/presentation/representers/http_response_representer.rb": {
         "lines": [
           null,
           null,
@@ -1164,14 +1192,127 @@
           null,
           null,
           1,
-          1,
+          2,
           null,
           null,
           null,
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/presentation/representers/trips.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/presentation/representers/openstruct_with_links.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          null,
+          null
+        ]
+      },
+      "/home/java/workspace/ComfyWings/api_comfywings/app/presentation/representers/trip_representer.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null,
+          null,
+          1,
+          null,
+          1,
+          0,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/home/java/workspace/ComfyWings/api_comfywings/app/presentation/representers/trips_representer.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null
+        ]
+      },
+      "/home/java/workspace/ComfyWings/api_comfywings/app/presentation/responses/api_result.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          1,
+          2,
+          null,
+          2,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/home/java/workspace/ComfyWings/api_comfywings/app/presentation/responses/trips_list.rb": {
         "lines": [
           null,
           null,
@@ -1183,65 +1324,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/presentation/responses/api_result.rb": {
-        "lines": [
-          null,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          null,
-          1,
-          null,
-          null,
-          null,
-          null,
-          1,
-          null,
-          null,
-          1,
-          1,
-          0,
-          null,
-          0,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "/home/java/Desktop/SOA/api_comfywings/app/presentation/view_objects/api_result.rb": {
-        "lines": [
-          null,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          null,
-          1,
-          null,
-          null,
-          null,
-          null,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          null,
-          1,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "/home/java/Desktop/SOA/api_comfywings/app/presentation/view_objects/flight.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/presentation/view_objects/flight.rb": {
         "lines": [
           null,
           null,
@@ -1275,7 +1358,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/application/controllers/app.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/application/controllers/app.rb": {
         "lines": [
           null,
           null,
@@ -1298,45 +1381,22 @@
           1,
           null,
           1,
-          1,
-          1,
+          2,
+          2,
           null,
           null,
-          1,
+          2,
           0,
           0,
           null,
           null,
-          1,
+          2,
           null,
-          0,
-          0,
           0,
           0,
           0,
           0,
           0,
-          null,
-          0,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          1,
-          1,
-          1,
-          null,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
-          null,
           0,
           0,
           null,
@@ -1344,6 +1404,43 @@
           null,
           null,
           null,
+          null,
+          null,
+          null,
+          null,
+          2,
+          2,
+          1,
+          null,
+          1,
+          1,
+          1,
+          0,
+          0,
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          0,
+          0,
+          0,
           null,
           null,
           null,
@@ -1352,7 +1449,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/application/requests/init.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/application/requests/init.rb": {
         "lines": [
           null,
           null,
@@ -1361,7 +1458,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/application/requests/new_trip_query.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/application/requests/new_trip_query.rb": {
         "lines": [
           null,
           null,
@@ -1409,7 +1506,59 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/application/services/add_trip_query.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/application/services/add_trip_query.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          0,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/home/java/workspace/ComfyWings/api_comfywings/app/application/services/find_trips.rb": {
         "lines": [
           null,
           null,
@@ -1486,7 +1635,7 @@
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/app/application/services/search_trips.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/app/application/services/search_trips.rb": {
         "lines": [
           null,
           null,
@@ -1517,28 +1666,27 @@
           1,
           1,
           1,
-          0,
-          null,
-          0,
-          null,
-          1,
           1,
           null,
           null,
-          1,
           0,
           0,
           null,
           null,
           1,
           0,
+          0,
+          null,
+          null,
+          1,
+          1,
           null,
           null,
           null,
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/spec/helpers/vcr_helper.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/spec/helpers/vcr_helper.rb": {
         "lines": [
           null,
           null,
@@ -1558,7 +1706,7 @@
           null,
           null,
           1,
-          1,
+          2,
           null,
           null,
           null,
@@ -1566,22 +1714,22 @@
           null,
           null,
           1,
-          1,
-          1,
-          1,
-          1,
-          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          null,
+          2,
+          null,
           null,
           1,
-          null,
-          null,
-          1,
-          1,
+          2,
           null,
           null
         ]
       },
-      "/home/java/Desktop/SOA/api_comfywings/spec/helpers/database_helper.rb": {
+      "/home/java/workspace/ComfyWings/api_comfywings/spec/helpers/database_helper.rb": {
         "lines": [
           null,
           null,
@@ -1600,6 +1748,6 @@
         ]
       }
     },
-    "timestamp": 1669902208
+    "timestamp": 1669920609
   }
 }

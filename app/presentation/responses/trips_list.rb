@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module CodePraise
+module ComfyWings
   module Response
     # List of projects
-    ProjectsList = Struct.new(:trips)
+    TripsList = Struct.new(:trips)
   end
 end
