@@ -5,7 +5,7 @@ require 'roar/json'
 
 module ComfyWings
   module Representer
-    # Represent a Trip as Json
+    # Represent Flight as Json
     class Flight < Roar::Decorator
       include Roar::JSON
 
