@@ -24,14 +24,39 @@ module ComfyWings
 
       # GET /
       routing.root do
-        currency_list = Repository::For.klass(Entity::Currency).all
-        view 'home', locals: { currencies: currency_list }
+        message = "ComfyWings API v1 at /api/v1/ in #{App.environment} mode."
+
+        result_response = Representer::HttpResponse.new(
+          Response::ApiResult.new(status: :ok, message: message)
+        )
+
+        response.status = result_response.http_status_code
+        result_response.to_json
+      end
+
+      routing.is 'currency/all' do
+        routing.get do
+          currency_request = Service::RetrieveCurrencies.new.call(routing.params)
+          currencies = Service::RetrieveCurrencies.new.call(currency_request)
+
+          if currencies.failure?
+            failed = Representer::HttpResponse.new(result.failure)
+            routing.halt failed.http_status_code, failed.to_json
+          end
+
+          http_response = Representer::HttpResponse.new(result.value!)
+          response.status = http_response.http_status_code
+
+          Representer::CurrenciesList.new(
+            result.value!.message
+          ).to_json
+        end
       end
 
       routing.is 'flight' do
         # POST /flight
         routing.post do
-          trip_request = Forms::NewTripQuery.new.call(routing.params)
+          trip_request = Request::NewTripQuery.new.call(routing.params)
           trips = Service::FindTrips.new.call(trip_request)
           if trips.failure?
             flash[:error] = trips.failure

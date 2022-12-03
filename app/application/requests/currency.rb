@@ -5,8 +5,8 @@ require 'json'
 
 module ComfyWings
   module Request
-    # From Object for Trip Query from frontend user
-    class NewTripQuery
+    # Currency list request
+    class CurrencyList
       include Dry::Monads::Result::Mixin
 
       def initialize(params)
