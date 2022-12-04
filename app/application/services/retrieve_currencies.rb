@@ -13,8 +13,8 @@ module ComfyWings
 
       private
 
-      NOT_FOUND_ERR = "Currencies not found."
-      DB_ERR = "We encountered an issue accessing the database."
+      NOT_FOUND_ERR = 'Currencies not found.'
+      DB_ERR = 'We encountered an issue accessing the database.'
 
       def retrieve_all
         currency_list = Repository::For.klass(Entity::Currency).all
@@ -25,7 +25,7 @@ module ComfyWings
           Failure(Response::ApiResult.new(status: :not_found, message: NOT_FOUND_ERR))
         end
       rescue StandardError => e
-        Failure(Response::ApiResult.new(status: :internal_errpr, message: DB_ERR))
+        Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR))
       end
 
     end

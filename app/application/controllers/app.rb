@@ -18,6 +18,7 @@ module ComfyWings
                     css: 'style.css'
     plugin :common_logger, $stderr
 
+    # rubocop:disable Metrics/BlockLength
     route do |routing|
       routing.assets # load CSS
       response['Content-Type'] = 'application/json'
@@ -48,6 +49,25 @@ module ComfyWings
           response.status = http_response.http_status_code
 
           Representer::CurrenciesList.new(
+            result.value!.message
+          ).to_json
+        end
+      end
+
+      routing.is 'airport' do
+        routing.get do
+          airport_search = Service::SearchAirport.new.call(routing.params)
+          airport = Service::SearchAirport.new.call(airport_search)
+
+          if airport.failure?
+            failed = Representer::HttpResponse.new(result.failure)
+            routing.halr failed.http_status_code, failed.to_json
+          end
+
+          http_response = Representer::HttpResponse.new(result.value!)
+          response.status = http_response.http_response_code
+
+          Representer::Airport.new(
             result.value!.message
           ).to_json
         end
