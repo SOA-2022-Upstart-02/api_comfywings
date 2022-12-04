@@ -28,7 +28,7 @@ module ComfyWings
         message = "ComfyWings API v1 at /api/v1/ in #{App.environment} mode."
 
         result_response = Representer::HttpResponse.new(
-          Response::ApiResult.new(status: :ok, message: message)
+          Response::ApiResult.new(status: :ok, message:)
         )
 
         response.status = result_response.http_status_code
@@ -129,5 +129,6 @@ module ComfyWings
         end
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end

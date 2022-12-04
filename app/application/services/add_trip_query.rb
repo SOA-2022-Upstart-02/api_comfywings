@@ -5,7 +5,6 @@ require 'digest'
 
 module ComfyWings
   module Service
-    # 
     class AddTripQuery
       include Dry::Transaction
 
@@ -16,7 +15,6 @@ module ComfyWings
 
       DB_ERR = 'Cannot access database'
 
-      # 
       def validate_trip_query(input)
         new_trip_query = input.call
         if new_trip_query.success?

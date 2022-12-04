@@ -27,7 +27,6 @@ module ComfyWings
       rescue StandardError => e
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR))
       end
-
     end
   end
 end

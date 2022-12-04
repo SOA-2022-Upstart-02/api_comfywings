@@ -41,4 +41,6 @@ describe 'Test API routes' do
       response = JSON.parse(last_response.body)
     end
   end
+
+  # TODO: write test before full airport database table update
 end
