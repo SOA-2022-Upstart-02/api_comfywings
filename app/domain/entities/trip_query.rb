@@ -5,6 +5,7 @@ require 'dry-struct'
 require 'dry-types'
 
 module ComfyWings
+  # Trip query entity
   module Entity
     # Domain entity for trip query arg
     class TripQuery < Dry::Struct
@@ -20,7 +21,6 @@ module ComfyWings
       attribute :adult_qty,      Strict::Integer
       attribute :children_qty,   Strict::Integer
       attribute :is_one_way,     Strict::Bool
-      attribute :is_new,         Strict::Bool
 
       def expired?
         departure_date <= Date.today
