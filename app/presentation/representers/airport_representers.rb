@@ -9,10 +9,10 @@ module ComfyWings
     class Airport < Roar::Decorator
       include Roar::JSON
 
-      # TODO: update to latest airport database attributes
-
+      property :airport_name
+      property :city_airport_name
+      property :country
       property :iata_code
-      property :city_name
     end
   end
 end

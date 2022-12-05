@@ -52,7 +52,7 @@ describe 'Integration Tests of AMADEUS API and Database' do
   end
 
   describe 'Test TripQuery Repository' do
-   it 'Test Save new TripQuery and find TripQuery code' do
+    it 'Test Save new TripQuery and find TripQuery code' do
       code = SecureRandom.uuid
       currency = ComfyWings::Repository::For.klass(ComfyWings::Entity::Currency).find_code('TWD')
 
