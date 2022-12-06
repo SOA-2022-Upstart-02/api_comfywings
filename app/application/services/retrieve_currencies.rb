@@ -13,7 +13,6 @@ module ComfyWings
 
       private
 
-      NOT_FOUND_ERR = "Currencies not found."
       DB_ERR = "We encountered an issue accessing the database."
 
       def retrieve_all
