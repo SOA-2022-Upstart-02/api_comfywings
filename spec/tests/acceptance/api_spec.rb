@@ -61,4 +61,12 @@ describe 'Test API routes' do
       _(JSON.parse(last_response.body)['status']).must_include 'not'
     end
   end
+
+  describe 'Currencies route' do
+    it 'should be able to retrieve all available currencies' do
+      get '/api/currency/all'
+      _(last_response.status).must_equal 404
+      _(JSON.parse(last_response.body)['status']).must_include 'ok'
+    end
+  end
 end
