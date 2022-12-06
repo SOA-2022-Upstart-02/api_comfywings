@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../spec_helper'
+require_relative '../../helpers/spec_helper'
 require_relative '../../helpers/vcr_helper'
 require_relative '../../helpers/database_helper'
 require 'securerandom'
@@ -17,6 +17,7 @@ describe 'Integration Tests of AMADEUS API and Database' do
 
   after do
     VcrHelper.eject_vcr
+    DatabaseHelper.wipe_database
   end
 
   describe 'Retrieve Currency By Currency Code' do
@@ -49,7 +50,8 @@ describe 'Integration Tests of AMADEUS API and Database' do
         arrival_date: Date.parse('2001-03-03'),
         adult_qty: 1,
         children_qty: 1,
-        is_one_way: true
+        is_one_way: true,
+        is_new: false
       )
 
       repository = ComfyWings::Repository::For.klass(ComfyWings::Entity::TripQuery)
@@ -63,8 +65,13 @@ describe 'Integration Tests of AMADEUS API and Database' do
 
   describe 'Test Trip information' do
     it 'HAPPY: should provide correct trip attributes' do
+      ComfyWings::Database::TripQueryOrm
+        .insert(currency_id: 2, code: QUERY_CODE, origin: 'TPE', destination: 'MAD',
+                departure_date: Date.parse('2022-12-31'), arrival_date: Date.parse('2023-01-29'),
+                adult_qty: 1, children_qty: 2, is_one_way: false, is_new: true)
+
       repository = ComfyWings::Repository::For.klass(ComfyWings::Entity::TripQuery)
-      trip_query = repository.find_code('temp_for_test')
+      trip_query = repository.find_code(QUERY_CODE)
       trips = ComfyWings::Amadeus::TripMapper.new(AMADEUS_KEY, AMADEUS_SECRET)
         .search(trip_query)
 

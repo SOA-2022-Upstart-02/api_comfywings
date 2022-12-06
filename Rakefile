@@ -19,6 +19,12 @@ Rake::TestTask.new(:spec_all) do |t|
   t.warning = false
 end
 
+desc 'Run acceptance tests'
+Rake::TestTask.new(:spec_acc) do |t|
+  t.pattern = 'spec/tests/acceptance/*_spec.rb'
+  t.warning = false
+end
+
 desc 'Keep rerunning tests upon changes'
 task :respec do
   sh "rerun -c 'rake spec' --ignore 'coverage/*'"
@@ -34,7 +40,7 @@ task :rerun do
   sh "rerun -c --ignore 'coverage/*' --ignore 'repostore/*' -- bundle exec puma"
 end
 
-namespace :db do # rubocop:disable Metrics/BlockLength
+namespace :db do
   task :config do
     require 'sequel'
     require_relative 'config/environment' # load config info
