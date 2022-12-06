@@ -18,6 +18,8 @@ module ComfyWings
 
       def valid_trip_query(query_code)
         trip_query = Repository::For.klass(Entity::TripQuery).find_code(query_code)
+        puts Date.today 
+        puts trip_query.departure_date
         if trip_query.departure_date <= Date.today
           Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR_MSG))
         end
