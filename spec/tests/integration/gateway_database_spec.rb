@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../spec_helper'
+require_relative '../../helpers/spec_helper'
 require_relative '../../helpers/vcr_helper'
 require_relative '../../helpers/database_helper'
 require 'securerandom'
@@ -17,6 +17,7 @@ describe 'Integration Tests of AMADEUS API and Database' do
 
   after do
     VcrHelper.eject_vcr
+    DatabaseHelper.wipe_database
   end
 
   describe 'Retrieve Currency By Currency Code' do
@@ -31,6 +32,23 @@ describe 'Integration Tests of AMADEUS API and Database' do
       reposit = ComfyWings::Repository::For.klass(ComfyWings::Entity::Currency)
       currencies = reposit.all
       _(currencies.size).must_equal(4)
+    end
+  end
+
+  describe 'Retrive Airport by iata code' do
+    it 'HAPPY: should be able to save airports in database' do
+      airport = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code('MAG')
+
+      _(airport.airport_name).must_equal('Madang')
+      _(airport.city_airport_name).must_equal('Madang')
+      _(airport.country).must_equal('Papua New Guinea')
+      _(airport.iata_code).must_equal('MAG')
+    end
+
+    it 'HAPPY: there should be a total of  5879 airports' do
+      reposit = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport)
+      airports = reposit.all
+      _(airports.size).must_equal(5879)
     end
   end
 
@@ -49,7 +67,8 @@ describe 'Integration Tests of AMADEUS API and Database' do
         arrival_date: Date.parse('2001-03-03'),
         adult_qty: 1,
         children_qty: 1,
-        is_one_way: true
+        is_one_way: true,
+        is_new: false
       )
 
       repository = ComfyWings::Repository::For.klass(ComfyWings::Entity::TripQuery)
@@ -63,8 +82,13 @@ describe 'Integration Tests of AMADEUS API and Database' do
 
   describe 'Test Trip information' do
     it 'HAPPY: should provide correct trip attributes' do
+      ComfyWings::Database::TripQueryOrm
+        .insert(currency_id: 2, code: QUERY_CODE, origin: 'TPE', destination: 'MAD',
+                departure_date: Date.parse('2022-12-31'), arrival_date: Date.parse('2023-01-29'),
+                adult_qty: 1, children_qty: 2, is_one_way: false, is_new: true)
+
       repository = ComfyWings::Repository::For.klass(ComfyWings::Entity::TripQuery)
-      trip_query = repository.find_code('temp_for_test')
+      trip_query = repository.find_code(QUERY_CODE)
       trips = ComfyWings::Amadeus::TripMapper.new(AMADEUS_KEY, AMADEUS_SECRET)
         .search(trip_query)
 
@@ -87,8 +111,8 @@ describe 'Integration Tests of AMADEUS API and Database' do
       _(rebuilt_trip.inbound_arrival_time).must_equal Time.parse('2023-01-30T20:15:00')
 
       outbound_flight = rebuilt_trip.outbound_flights[0]
-      _(outbound_flight.origin).must_equal 'TPE'
-      _(outbound_flight.destination).must_equal 'HKG'
+      _(outbound_flight.origin.iata_code).must_equal 'TPE'
+      _(outbound_flight.destination.iata_code).must_equal 'HKG'
       _(outbound_flight.aircraft).must_equal 'AIRBUS A330-300'
       _(outbound_flight.number).must_equal 'CX-479'
       _(outbound_flight.departure_time).must_equal Time.parse('2022-12-31T21:15:00')
@@ -99,8 +123,8 @@ describe 'Integration Tests of AMADEUS API and Database' do
       refute(outbound_flight.is_return)
 
       inbound_flight = rebuilt_trip.inbound_flights[0]
-      _(inbound_flight.origin).must_equal 'MAD'
-      _(inbound_flight.destination).must_equal 'MUC'
+      _(inbound_flight.origin.iata_code).must_equal 'MAD'
+      _(inbound_flight.destination.iata_code).must_equal 'MUC'
       _(inbound_flight.aircraft).must_equal 'AIRBUS A321'
       _(inbound_flight.number).must_equal 'LH-1805'
       _(inbound_flight.departure_time).must_equal Time.parse('2023-01-29T18:25:00"')

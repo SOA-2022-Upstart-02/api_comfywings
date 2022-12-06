@@ -1,9 +1,11 @@
 # frozen_string_literal: false
 
+require 'date'
 require 'dry-struct'
 require 'dry-types'
 
 module ComfyWings
+  # ComfyWings Domain Modal
   module Entity
     # Domain entity for trip query arg
     class TripQuery < Dry::Struct
@@ -19,6 +21,11 @@ module ComfyWings
       attribute :adult_qty,      Strict::Integer
       attribute :children_qty,   Strict::Integer
       attribute :is_one_way,     Strict::Bool
+      attribute :is_new,         Strict::Bool
+
+      def expired?
+        departure_date <= Date.today
+      end
 
       def create_amadeus_flight_offers
         {
@@ -69,6 +76,10 @@ module ComfyWings
       def create_child_travelers
         (1..children_qty).map { |num| { id: num + adult_qty, travelerType: 'CHILD' } }
       end
+    end
+
+    def f1
+      puts Date.today
     end
   end
 end
