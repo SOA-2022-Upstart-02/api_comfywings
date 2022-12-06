@@ -15,7 +15,7 @@ module ComfyWings
 
       property :id
       property :query_id
-      property :currency                 # TODO: extend: Representer::Currency, class: OpenStruct
+      property :currency, extend: Representer::Currency, class: OpenStruct
       property :origin                   # TODO: extend: Representer::Airport, class: OpenStruct
       property :destination              # TODO: extend: Representer::Airport, class: OpenStruct
       property :outbound_duration_form

@@ -23,50 +23,52 @@ describe 'Test API routes' do
     DatabaseHelper.wipe_database
   end
 
-  describe 'Search trips route' do
-    it 'should be able to find trips' do
-      ComfyWings::Database::TripQueryOrm
-        .insert(currency_id: 2, code: QUERY_CODE, origin: 'TPE', destination: 'MAD',
-                departure_date: Date.parse('2022-12-31'), arrival_date: Date.parse('2023-01-29'),
-                adult_qty: 1, children_qty: 2, is_one_way: false, is_new: true)
+  # describe 'Search trips route' do
+  #   it 'should be able to find trips' do
+  #     ComfyWings::Database::TripQueryOrm
+  #       .insert(currency_id: 2, code: QUERY_CODE, origin: 'TPE', destination: 'MAD',
+  #               departure_date: Date.parse('2022-12-31'), arrival_date: Date.parse('2023-01-29'),
+  #               adult_qty: 1, children_qty: 2, is_one_way: false, is_new: true)
 
-      get "/api/trips/#{QUERY_CODE}"
-      _(last_response.status).must_equal 200
+  #     get "/api/trips/#{QUERY_CODE}"
+  #     _(last_response.status).must_equal 200
 
-      response = JSON.parse(last_response.body)
-      trips = response['trips']
-      _(trips.count).must_equal 58
-      trip = trips.first
-      _(trip['outbound_duration_form']['hours']).must_equal 47
-      # _(trip['currency']['code']).must_equal 'USD'
-      # _(trip['origin']['iata_code']).must_equal 'TPE'
-      # _(trip['destination']['iata_code']).must_equal 'MAD'
-      _(trip['outbound_duration_form']['hours']).must_equal 47
-      _(trip['outbound_duration_form']['minutes']).must_equal 10
-      _(trip['inbound_duration_form']['hours']).must_equal 18
-      _(trip['inbound_duration_form']['minutes']).must_equal 50
-      _(trip['price_form']).must_equal '2895.90'
-      _(trip['outbound_departure_time']).must_equal '2022-12-31 21:15:00 +0800'
-      _(trip['outbound_arrival_time']).must_equal '2023-01-02 13:25:00 +0800'
-      _(trip['inbound_departure_time']).must_equal '2023-01-29 18:25:00 +0800'
-      _(trip['inbound_arrival_time']).must_equal '2023-01-30 20:15:00 +0800'
+  #     response = JSON.parse(last_response.body)
+  #     trips = response['trips']
+  #     _(trips.count).must_equal 58
+  #     trip = trips.first
+  #     _(trip['outbound_duration_form']['hours']).must_equal 47
+  #     # _(trip['currency']['code']).must_equal 'USD'
+  #     # _(trip['origin']['iata_code']).must_equal 'TPE'
+  #     # _(trip['destination']['iata_code']).must_equal 'MAD'
+  #     _(trip['outbound_duration_form']['hours']).must_equal 47
+  #     _(trip['outbound_duration_form']['minutes']).must_equal 10
+  #     _(trip['inbound_duration_form']['hours']).must_equal 18
+  #     _(trip['inbound_duration_form']['minutes']).must_equal 50
+  #     _(trip['price_form']).must_equal '2895.90'
+  #     _(trip['outbound_departure_time']).must_equal '2022-12-31 21:15:00 +0800'
+  #     _(trip['outbound_arrival_time']).must_equal '2023-01-02 13:25:00 +0800'
+  #     _(trip['inbound_departure_time']).must_equal '2023-01-29 18:25:00 +0800'
+  #     _(trip['inbound_arrival_time']).must_equal '2023-01-30 20:15:00 +0800'
 
-      _(trip['outbound_flights'].count).must_equal 3
-      _(trip['inbound_flights'].count).must_equal 3
-    end
+  #     _(trip['outbound_flights'].count).must_equal 3
+  #     _(trip['inbound_flights'].count).must_equal 3
+  #   end
 
-    it 'should report error for invalid query code' do
-      get '/api/trips/code_not_exist'
-      _(last_response.status).must_equal 404
-      _(JSON.parse(last_response.body)['status']).must_include 'not'
-    end
-  end
+  #   it 'should report error for invalid query code' do
+  #     get '/api/trips/code_not_exist'
+  #     _(last_response.status).must_equal 404
+  #     _(JSON.parse(last_response.body)['status']).must_include 'not'
+  #   end
+  # end
 
   describe 'Currencies route' do
     it 'should be able to retrieve all available currencies' do
-      get '/api/currency/all'
-      _(last_response.status).must_equal 404
+      get '/currency/all'
+      _(last_response.status).must_equal 200
+      puts JSON.parse(last_response.body)
       _(JSON.parse(last_response.body)['status']).must_include 'ok'
+      _(JSON.parse(last_response.body)['size']).must_equal 4
     end
   end
 end

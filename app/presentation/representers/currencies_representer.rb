@@ -12,7 +12,7 @@ module ComfyWings
     class CurrenciesList < Roar::Decorator
       include Roar::JSON
 
-      collection :trips, extend: Representer::Currency, lass: Representer::OpenStructWithLinks
+      collection :currencies, extend: Representer::Currency, class: Representer::OpenStructWithLinks
     end
   end
 end
