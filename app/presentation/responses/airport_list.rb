@@ -3,6 +3,6 @@
 module ComfyWings
   module Response
     # Available currencies
-    CurrenciesList = Struct.new(:currencies)
+    AirportList = Struct.new(:airport)
   end
 end

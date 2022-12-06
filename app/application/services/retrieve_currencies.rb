@@ -12,7 +12,7 @@ module ComfyWings
       step :retrieve_all
 
       private
-
+      
       DB_ERR = "We encountered an issue accessing the database."
 
       def retrieve_all
@@ -23,7 +23,6 @@ module ComfyWings
       rescue StandardError => e
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR))
       end
-
     end
   end
 end

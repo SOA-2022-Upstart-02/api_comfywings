@@ -34,7 +34,6 @@ describe 'Test API routes' do
       _(last_response.status).must_equal 200
 
       response = JSON.parse(last_response.body)
-      puts response
       trips = response['trips']
       _(trips.count).must_equal 58
       trip = trips.first

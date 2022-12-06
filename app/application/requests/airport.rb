@@ -4,16 +4,16 @@ require 'dry/monads'
 require 'json'
 
 module ComfyWings
-  module Request
-    # Currency list request
-    class CurrencyList
+  module Requests
+    # Airport form object
+    class Airport
       include Dry::Monads::Result::Mixin
 
       def initialize(params)
         @params = params
       end
 
-      # Use in API to parse incoming list requests
+      # Use in API to parse incoming requests
       def call
         Success(
           JSON.parse(@params)

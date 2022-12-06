@@ -12,7 +12,7 @@ module ComfyWings
     class TripsList < Roar::Decorator
       include Roar::JSON
 
-      collection :trips, extend: Representer::Trip, lass: Representer::OpenStructWithLinks
+      collection :trips, extend: Representer::Trip, class: Representer::OpenStructWithLinks
     end
   end
 end
