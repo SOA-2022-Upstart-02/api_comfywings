@@ -15,7 +15,7 @@ module ComfyWings
 
       property :id
       property :code
-      property :currency # TODO: extend: Representer::Currency, class: OpenStruct
+      property :currency, extend: Representer::Currency, class: OpenStruct
       property :origin
       property :destination
       property :departure_date

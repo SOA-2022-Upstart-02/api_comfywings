@@ -12,9 +12,8 @@ module ComfyWings
       step :retrieve_all
 
       private
-
-      NOT_FOUND_ERR = 'Currencies not found.'
-      DB_ERR = 'We encountered an issue accessing the database.'
+      
+      DB_ERR = "We encountered an issue accessing the database."
 
       def retrieve_all
         currency_list = Repository::For.klass(Entity::Currency).all
