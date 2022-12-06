@@ -17,8 +17,7 @@ module ComfyWings
     plugin :assets, path: 'app/presentation/assets',
                     css: 'style.css'
     plugin :common_logger, $stderr
-
-    route do |routing| # rubocop:disable Metrics/BlockLength
+    
     # rubocop:disable Metrics/BlockLength
     route do |routing|
       routing.assets # load CSS
@@ -129,6 +128,5 @@ module ComfyWings
         end
       end
     end
-    # rubocop:enable Metrics/BlockLength
   end
 end
