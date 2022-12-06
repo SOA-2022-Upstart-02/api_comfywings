@@ -4,7 +4,7 @@ require 'roar/decorator'
 require 'roar/json'
 
 require_relative 'openstruct_with_links'
-require_relative 'trip_representer'
+require_relative 'currency_representer'
 
 module ComfyWings
   module Representer
@@ -12,7 +12,7 @@ module ComfyWings
     class CurrenciesList < Roar::Decorator
       include Roar::JSON
 
-      collection :trips, extend: Representer::CurrenciesList, class: Representer::OpenStructWithLinks
+      collection :currencies, extend: Representer::Currency, class: Representer::OpenStructWithLinks
     end
   end
 end

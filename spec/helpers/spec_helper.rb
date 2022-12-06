@@ -22,3 +22,5 @@ CORRECT = YAML.safe_load(File.read('spec/fixtures/flight_results.yml'))
 CORRECT_AIRPORT = YAML.safe_load(File.read('spec/fixtures/airport_results.yml'))
 
 QUERY_CODE = 'temp_for_test'
+
+QUERY_CODE = 'temp_for_test'

@@ -18,12 +18,9 @@ module ComfyWings
 
       def retrieve_all
         currency_list = Repository::For.klass(Entity::Currency).all
-
-        if currency_list
-          Success(Response::ApiResult.new(status: :ok, message: currency_list))
-        else
-          Failure(Response::ApiResult.new(status: :not_found, message: NOT_FOUND_ERR))
-        end
+                        .then { |currency| Response::CurrenciesList.new(currency) }
+                        .then { |list| Response::ApiResult.new(status: :ok, message: list) }
+                        .then { |result| Success(result) }
       rescue StandardError => e
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR))
       end

@@ -5,25 +5,38 @@ require 'digest'
 
 module ComfyWings
   module Service
-    # Retrieves array of all listed project entities
+    # Retrieves array of trips by tripQuery code
     class SearchTrips
       include Dry::Transaction
 
-      step :valid_trip_query
+      step :valid_trip_query_exist
+      step :valid_trip_query_status
       step :find_or_create_trips
 
       private
 
       DB_ERR_MSG = 'Having trouble accessing the database'
+      EXPIRED_MSG = 'This query is expired'
+      NOT_FOUND_MSG = 'Undefined query'
 
-      def valid_trip_query(query_code)
+      def valid_trip_query_exist(query_code)
         trip_query = Repository::For.klass(Entity::TripQuery).find_code(query_code)
-        puts Date.today 
-        puts trip_query.departure_date
-        if trip_query.departure_date <= Date.today
-          Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR_MSG))
+        if trip_query
+          Success(trip_query)
+        else
+          Failure(Response::ApiResult.new(status: :not_found, message: NOT_FOUND_MSG))
         end
-        Success(trip_query:)
+      rescue StandardError => e
+        puts e.backtrace.join("\n")
+        Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR_MSG))
+      end
+
+      def valid_trip_query_status(trip_query)
+        if trip_query.departure_date <= Date.today
+          Failure(Response::ApiResult.new(status: :bad_request, message: EXPIRED_MSG))
+        else
+          Success(trip_query:)
+        end
       rescue StandardError => e
         puts e.backtrace.join("\n")
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR_MSG))
@@ -42,6 +55,7 @@ module ComfyWings
 
       def create_trips_from_amadeus(trip_query)
         new_trips = Amadeus::TripMapper.new(App.config.AMADEUS_KEY, App.config.AMADEUS_SECRET).search(trip_query)
+        update_query_status(trip_query.id)
         ComfyWings::Repository::For.klass(Entity::Trip).create_many(new_trips)
           .then { |trips| Response::TripsList.new(trips) }
           .then { |list| Response::ApiResult.new(status: :ok, message: list) }
@@ -53,6 +67,10 @@ module ComfyWings
           .then { |trips| Response::TripsList.new(trips) }
           .then { |list| Response::ApiResult.new(status: :ok, message: list) }
           .then { |result| Success(result) }
+      end
+
+      def update_query_status(id)
+        ComfyWings::Repository::For.klass(Entity::TripQuery).update_searched(id)
       end
     end
   end

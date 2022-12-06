@@ -18,6 +18,7 @@ module ComfyWings
                     css: 'style.css'
     plugin :common_logger, $stderr
 
+    route do |routing| # rubocop:disable Metrics/BlockLength
     # rubocop:disable Metrics/BlockLength
     route do |routing|
       routing.assets # load CSS
@@ -37,10 +38,9 @@ module ComfyWings
 
       routing.is 'currency/all' do
         routing.get do
-          currency_request = Service::RetrieveCurrencies.new.call(routing.params)
-          currencies = Service::RetrieveCurrencies.new.call(currency_request)
+          result = Service::RetrieveCurrencies.new.call(routing.params)
 
-          if currencies.failure?
+          if result.failure?
             failed = Representer::HttpResponse.new(result.failure)
             routing.halt failed.http_status_code, failed.to_json
           end
