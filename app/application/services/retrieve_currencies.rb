@@ -12,15 +12,16 @@ module ComfyWings
       step :retrieve_all
 
       private
-      
-      DB_ERR = "We encountered an issue accessing the database."
+
+      DB_ERR = 'We encountered an issue accessing the database.'
 
       def retrieve_all
         currency_list = Repository::For.klass(Entity::Currency).all
-                        .then { |currency| Response::CurrenciesList.new(currency) }
-                        .then { |list| Response::ApiResult.new(status: :ok, message: list) }
-                        .then { |result| Success(result) }
+          .then { |currency| Response::CurrenciesList.new(currency) }
+          .then { |list| Response::ApiResult.new(status: :ok, message: list) }
+          .then { |result| Success(result) }
       rescue StandardError => e
+        puts e.backtrace.join("\n")
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR))
       end
     end
