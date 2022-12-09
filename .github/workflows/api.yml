@@ -1,0 +1,48 @@
+# API testing workflow config for CI/CD on Github
+
+name: API Continuous Integration
+
+# Controls when the action will run
+on:
+  # Triggers the workflow for the main branch on push
+  push:
+    branches: [main]
+  # Triggers the workflow for any branch on pull request
+  pull_request:
+    branches:
+      - '**'
+  # Allows running this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow is defined as one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called api_test
+  api_test:
+    strategy:
+      # Don't cancel other jobs if one fails
+      fail-fast: false
+      matrix:
+        os: [ubuntu, macos]
+    runs-on: ${{ matrix.os }}-latest # Runs on the latest builds of matrix OSes
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Builds on a predefined action that has Ruby installed 
+      - uses: ruby/setup_ruby@v1
+        with:
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - name: Setup test database
+        env: # define secrets in Github project -> settings -> secrets
+            DB_FILENAME: ${{ secrets.DB_FILENAME }}
+        run: RACK_ENV=test bundle exec rake db:migrate
+
+      - name: Run all specs
+        env: # define secrets in Github project -> settings -> secrets
+          AMADEUS_KEY: ${{ secrets.AMADEUS_KEY }}
+          AMADEUS_SECRET: ${{ secrets.AMADEUS_SECRET }}
+          DB_FILENAME: ${{ secrets.DB_FILENAME }}
+          API_HOST: ${{ secrets.API_HOST }}
+        run: bundle exec rake spec_all
