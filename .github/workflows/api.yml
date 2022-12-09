@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v2
 
       # Builds on a predefined action that has Ruby installed 
-      - uses: ruby/setup_ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
