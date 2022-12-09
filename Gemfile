@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 ruby File.read('.ruby-version').strip
 
 # CONFIGURATION
@@ -11,7 +11,6 @@ gem 'rake', '~> 13.0'
 # PRESENTATION LAYER
 gem 'multi_json', '~> 1.15'
 gem 'roar', '~> 1.1'
-gem 'slim', '~> 4'
 
 # APPLICATION LAYER
 # Web application related
