@@ -24,6 +24,11 @@ gem 'dry-monads', '~> 1.4'
 gem 'dry-transaction', '~> 0.13'
 gem 'dry-validation', '~> 1.7'
 
+# caching 
+gem 'rack-cache', '~> 1.4'
+gem 'redis', '~> 4.8'
+gem 'redis-rack-cache', '~> 2.2'
+
 # DOMAIN LAYER
 # Validation
 gem 'dry-struct', '~> 1'
