@@ -25,19 +25,21 @@ Rake::TestTask.new(:spec_acc) do |t|
   t.warning = false
 end
 
+namespace :run do
+  desc 'Starts API in dev mode (rerun)'
+  task :dev do
+    sh "rerun -c --ignore 'coverage/*' 'bundle exec puma -p 9090'"
+  end
+
+  desc 'Starts API in test mode'
+  task :test do
+    sh 'RACK_ENV=test bundle exec puma -p 9090'
+  end
+end
+
 desc 'Keep rerunning tests upon changes'
 task :respec do
   sh "rerun -c 'rake spec' --ignore 'coverage/*'"
-end
-
-desc 'Starts web app'
-task :run do
-  sh 'bundle exec puma'
-end
-
-desc 'Reruns web app upon changes'
-task :rerun do
-  sh "rerun -c --ignore 'coverage/*' --ignore 'repostore/*' -- bundle exec puma"
 end
 
 namespace :db do
