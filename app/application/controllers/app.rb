@@ -31,6 +31,7 @@ module ComfyWings
 
       routing.is 'currency/all' do
         routing.get do
+          response.cache_control public: true, max_age: 300
           result = Service::RetrieveCurrencies.new.call(routing.params)
 
           if result.failure?
