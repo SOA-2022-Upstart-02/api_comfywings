@@ -71,18 +71,32 @@ describe 'Test API routes' do
     end
   end
 
-  describe 'Airport route' do
+  describe 'single Airport route' do
     it 'should be able to retrieve information about an airport' do
-      get "api/airport/#{IATA_CODE}"
+      get "airport/#{IATA_CODE}"
       _(last_response.status).must_equal 200
       airport = JSON.parse(last_response.body)
-      _(airport.count).must_equal 4 #  number of airport information returned
+      _(airport.count).must_equal 4 #  number of airport information returned
     end
 
     it 'should report error for invalid iata_code' do
-      get "api/airport/#{QUERY_CODE}"
+      get "airport/#{QUERY_CODE}"
       _(last_response.status).must_equal 404
       _(JSON.parse(last_response.body)['status']).must_include 'not'
+    end
+  end
+
+   describe 'multiple Airport route based on starting letter' do
+    it 'should be able to retrieve a list airports' do
+      get "airportlist/#{IATA_CODE_LETTER}"
+      _(last_response.status).must_equal 200
+      airport = JSON.parse(last_response.body)['airports']
+      _(airport.count).wont_be_nil
+    end
+
+    it 'should report error for invalid iata_code letter' do
+      get "airportlist/#{IATA_CODE_NUMBER}"
+      _(last_response.status).must_equal 404
     end
   end
 end
