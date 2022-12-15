@@ -12,7 +12,7 @@ module ComfyWings
     plugin :caching
     plugin :all_verbs # enable other HTML verbs such as PUT/DELETE
     plugin :common_logger, $stderr
-    
+
     # rubocop:disable Metrics/BlockLength
     route do |routing|
       response['Content-Type'] = 'application/json'
@@ -33,7 +33,6 @@ module ComfyWings
         routing.get do
           response.cache_control public: true, max_age: 300
           result = Service::RetrieveCurrencies.new.call(routing.params)
-
           if result.failure?
             failed = Representer::HttpResponse.new(result.failure)
             routing.halt failed.http_status_code, failed.to_json
@@ -122,6 +121,7 @@ module ComfyWings
           end
         end
       end
+      # rubocop:enable Metrics/BlockLength
     end
   end
 end

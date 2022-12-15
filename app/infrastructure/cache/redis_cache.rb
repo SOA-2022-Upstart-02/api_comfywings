@@ -1,22 +1,22 @@
-# frozen_string_literal: true
+# frozen_string_literal: true
 
+=begin
 require 'redis'
 
-module CodePraise
+module ComfyWings
   module Cache
-    # Redis client utility
+    # redis client utility
     class Client
-      def initialize(config)
-        @redis = Redis.new(url: config.REDISCLOUD_URL)
-      end
+      @redis = Redis.new(url: config.REDISCLOUD_URL)
+    end
 
-      def keys
-        @redis.keys
-      end
+    def keys
+      @redis.keys
+    end
 
-      def wipe
-        keys.each { |key| @redis.del(key) }
-      end
+    def wipe
+      keys.each { |key| @redis.del(key)}
     end
   end
 end
+=end

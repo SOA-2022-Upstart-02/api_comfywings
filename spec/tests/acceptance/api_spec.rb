@@ -66,9 +66,23 @@ describe 'Test API routes' do
     it 'should be able to retrieve all available currencies' do
       get '/currency/all'
       _(last_response.status).must_equal 200
-
       currencies = JSON.parse(last_response.body)['currencies']
       _(currencies.count).must_equal 4
+    end
+  end
+
+  describe 'Airport route' do
+    it 'should be able to retrieve information about an airport' do
+      get "api/airport/#{IATA_CODE}"
+      _(last_response.status).must_equal 200
+      airport = JSON.parse(last_response.body)
+      _(airport.count).must_equal 4 #  number of airport information returned
+    end
+
+    it 'should report error for invalid iata_code' do
+      get "api/airport/#{QUERY_CODE}"
+      _(last_response.status).must_equal 404
+      _(JSON.parse(last_response.body)['status']).must_include 'not'
     end
   end
 end
