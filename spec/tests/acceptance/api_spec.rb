@@ -73,14 +73,14 @@ describe 'Test API routes' do
 
   describe 'Airport route' do
     it 'should be able to retrieve information about an airport' do
-      get "api/v1/airport/#{IATA_CODE}"
+      get "api/airport/#{IATA_CODE}"
       _(last_response.status).must_equal 200
       airport = JSON.parse(last_response.body)
       _(airport.count).must_equal 4 #  number of airport information returned
     end
 
     it 'should report error for invalid iata_code' do
-      get "api/v1/airport/#{QUERY_CODE}"
+      get "api/airport/#{QUERY_CODE}"
       _(last_response.status).must_equal 404
       _(JSON.parse(last_response.body)['status']).must_include 'not'
     end

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+=begin
 require 'redis'
 
 module ComfyWings
@@ -18,3 +19,4 @@ module ComfyWings
     end
   end
 end
+=end
