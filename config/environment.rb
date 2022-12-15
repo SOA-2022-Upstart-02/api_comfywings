@@ -9,8 +9,6 @@ require 'rack/session'
 require 'delegate'
 require 'rack/cache'
 require 'redis-rack-cache'
-require 'rack/cache'
-require 'redis-rack-cache'
 
 module ComfyWings
   # Configuration for the App
@@ -59,6 +57,7 @@ module ComfyWings
     configure :development, :test do
       ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"
     end
+
     configure :development, :test do
       ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"
     end
@@ -67,15 +66,7 @@ module ComfyWings
     DB = Sequel.connect(ENV.fetch('DATABASE_URL'))
     # deliberately :reek:UncommunicativeMethodName calling method DB
     def self.DB = DB # rubocop:disable Naming/MethodName
-    # Database Setup
-    DB = Sequel.connect(ENV.fetch('DATABASE_URL'))
-    # deliberately :reek:UncommunicativeMethodName calling method DB
-    def self.DB = DB # rubocop:disable Naming/MethodName
 
-    # Setup for logger
-    LOGGER = Logger.new($stderr)
-    def self.logger = LOGGER
-  end
     # Setup for logger
     LOGGER = Logger.new($stderr)
     def self.logger = LOGGER

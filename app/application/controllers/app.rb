@@ -47,22 +47,23 @@ module ComfyWings
         end
       end
 
-      routing.is 'airport' do
-        routing.get do
-          airport_search = Service::SearchAirport.new.call(routing.params)
-          airport = Service::SearchAirport.new.call(airport_search)
+      routing.on 'airport' do
+        routing.on String do |iata_code|
+          # GET /airport/{iata_code}
+          routing.get do
+            result = Service::SearchAirport.new.call(iata_code)
+            if result.failure?
+              failed = Representer::HttpResponse.new(result.failure)
+              routing.halt failed.http_status_code, failed.to_json
+            end
 
-          if airport.failure?
-            failed = Representer::HttpResponse.new(result.failure)
-            routing.halr failed.http_status_code, failed.to_json
+            http_response = Representer::HttpResponse.new(result.value!)
+            response.status = http_response.http_status_code
+
+            Representer::Airport.new(
+              result.value!.message
+            ).to_json
           end
-
-          http_response = Representer::HttpResponse.new(result.value!)
-          response.status = http_response.http_response_code
-
-          Representer::Airport.new(
-            result.value!.message
-          ).to_json
         end
       end
 
