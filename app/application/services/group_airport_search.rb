@@ -6,18 +6,18 @@ require 'digest'
 module ComfyWings
   module Service
     # Retrieves array of all currencies
-    class RetrieveCurrencies
+    class GroupAirports
       include Dry::Transaction
 
-      step :retrieve_all
+      step :group_all
 
       private
 
       DB_ERR = 'We encountered an issue accessing the database.'
 
-      def retrieve_all
-        Repository::For.klass(Entity::Currency).all
-          .then { |currency| Response::CurrenciesList.new(currency) }
+      def group_all(iata_code_letter)
+        Repository::For.klass(Entity::Airport).find_from_start_letter(iata_code_letter)
+          .then { |airport| Response::AirportsList.new(airport) }
           .then { |list| Response::ApiResult.new(status: :ok, message: list) }
           .then { |result| Success(result) }
       rescue StandardError => e
