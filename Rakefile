@@ -173,7 +173,7 @@ namespace :cache do
   task :config do
     require_relative 'config/environment' # load config info
     require_relative 'app/infrastructure/cache/*'
-    @api = CodePraise::App
+    @api = ComfyWings::App
   end
 
   desc 'Directory listing of local dev cache'
