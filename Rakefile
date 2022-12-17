@@ -124,7 +124,7 @@ end
 
 namespace :cache do
   task :config do
-    require_relative 'config/environment.rb'
+    require_relative 'config/environment'
     require_relative 'app/infrastructure/cache/*'
     @api = ComfyWings::App
   end
@@ -144,7 +144,7 @@ namespace :wipe do
     puts 'Deleting development cache'
     sh 'rm -rf _cache/*'
   end
-  
+
   desc 'Delete production cache'
   task :production => :config do
     print 'Are you sure you wish to wipe the production cache? (y/n) '

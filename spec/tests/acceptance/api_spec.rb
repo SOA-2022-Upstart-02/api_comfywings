@@ -86,7 +86,7 @@ describe 'Test API routes' do
     end
   end
 
-   describe 'multiple Airport route based on starting letter' do
+  describe 'multiple Airport route based on starting letter' do
     it 'should be able to retrieve a list airports' do
       get "airportlist/#{IATA_CODE_LETTER}"
       _(last_response.status).must_equal 200

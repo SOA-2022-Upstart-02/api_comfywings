@@ -87,7 +87,6 @@ module ComfyWings
         end
       end
 
-
       # routing.is 'flight' do
       #   # POST /flight
       #   routing.post do
