@@ -4,6 +4,7 @@ require 'roda'
 
 # Remove this line once integrated with api
 require 'yaml'
+require 'json'
 
 module ComfyWings
   # Main controller class for ComfyWings
@@ -38,16 +39,16 @@ module ComfyWings
               failed = Representer::HttpResponse.new(result.failure)
               routing.halt failed.http_status_code, failed.to_json
             end
-  
+
             http_response = Representer::HttpResponse.new(result.value!)
             response.status = http_response.http_status_code
-  
+
             Representer::CurrenciesList.new(
               result.value!.message
             ).to_json
           end
         end
-  
+
         routing.on 'airport' do
           routing.on String do |iata_code|
             # GET /airport/{iata_code}
@@ -57,17 +58,17 @@ module ComfyWings
                 failed = Representer::HttpResponse.new(result.failure)
                 routing.halt failed.http_status_code, failed.to_json
               end
-  
+
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
-  
+
               Representer::Airport.new(
                 result.value!.message
               ).to_json
             end
           end
         end
-  
+
         routing.on 'airportlist' do
           routing.on String do |iata_code_letter|
             # GET /airport/{iata_code}
@@ -77,16 +78,17 @@ module ComfyWings
                 failed = Representer::HttpResponse.new(result.failure)
                 routing.halt failed.http_status_code, failed.to_json
               end
-  
+
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
-  
+
               Representer::AirportList.new(
                 result.value!.message
               ).to_json
             end
           end
         end
+
         routing.on 'trips' do
           routing.on String do |query_code|
             # GET /trips/{query_code}
@@ -109,7 +111,7 @@ module ComfyWings
         routing.on 'trip_query' do
           # POST /trip_query
           routing.post do
-            trip_query = Request::NewTripQuery.new(routing.body.read)
+            trip_query = Request::NewTripQuery.new(routing.params.to_json)
             result = Service::AddTripQuery.new.call(trip_query)
 
             if result.failure?
