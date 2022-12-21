@@ -1,43 +1,32 @@
-# ComfyWings
-A web Application that allows users to book as well as monitor their flights. 
+# ComfyWings Web API
+A web API that allows users to obtain *trip requests* from previously generated query codes.
 
-## Overview
-ComfyWings gives you access to a wide option of flight deals from which you can choose. Not only that, we go the extra mile and give you details about the flights you will be booking, such as:
-* Most recommended flights. 
-* Cheapest deals or most expesive, if you're looking to spoil yourself.
-* Best routes from your origin to destination and back. 
+## Routes
 
-## Current goals
-We hope to ease the process of booking flights by avoiding manual searches regarding deals you may be intereseted in. So, we also be providing e-mail services that will keep you updated on the current deals being offered. 
+### Root check
 
-## Future goals
-* Provide flight status for your friends and family to keep track of your flight.
+`GET /`
 
-## Plan your trip
-* Collect airport details. Are considering a long period layover? not to worry, we will provide you with everything you will need to know to make your layover worthwhile.
-* An itinerary will be provided after your booking is completed.
+Status:
 
+- 200: API server running (happy)
 
-## Database
+### Query code requested trips
 
-![](/assets/images/ComfyWings_DB.png)
+`GET /api/trips/#{QUERY_CODE}` 
 
-* TripQuery
+Status
 
-  Store users' search parameters, allowing users to share information through code.
+- 200: trips request returned (happy)
+- 404: trips not found (sad)
+- 500: problems obtaining trip information (bad)
 
-* Currency
+### Store trip information
 
-  Representation of currencies which followed the ISO 4217.
+`POST /{origin}/{destination}/{departure_data}/{return_date}/{one_way=false}/{adult_qty}`
 
-* Trip
+Status
 
-  Core entity for ComfyWings, store the result of TripQuery.
-
-* Flight
-
-  Store information for individual flights in one trip
-
-* Airport
-
-  Airport information includes airport name, IATA code, city, country.
+- 201: trips stored (happy)
+- 404: incorrect trip information (sad)
+- 500: problems storing the trips (bad)
