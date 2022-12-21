@@ -4,6 +4,7 @@ require 'roda'
 
 # Remove this line once integrated with api
 require 'yaml'
+require 'json'
 
 module ComfyWings
   # Main controller class for ComfyWings
@@ -12,7 +13,7 @@ module ComfyWings
     plugin :caching
     plugin :all_verbs # enable other HTML verbs such as PUT/DELETE
     plugin :common_logger, $stderr
-    
+
     # rubocop:disable Metrics/BlockLength
     route do |routing|
       response['Content-Type'] = 'application/json'
@@ -29,62 +30,65 @@ module ComfyWings
         result_response.to_json
       end
 
-      routing.is 'currency/all' do
-        routing.get do
-          result = Service::RetrieveCurrencies.new.call(routing.params)
-
-          if result.failure?
-            failed = Representer::HttpResponse.new(result.failure)
-            routing.halt failed.http_status_code, failed.to_json
-          end
-
-          http_response = Representer::HttpResponse.new(result.value!)
-          response.status = http_response.http_status_code
-
-          Representer::CurrenciesList.new(
-            result.value!.message
-          ).to_json
-        end
-      end
-
-      routing.is 'airport' do
-        routing.get do
-          airport_search = Service::SearchAirport.new.call(routing.params)
-          airport = Service::SearchAirport.new.call(airport_search)
-
-          if airport.failure?
-            failed = Representer::HttpResponse.new(result.failure)
-            routing.halr failed.http_status_code, failed.to_json
-          end
-
-          http_response = Representer::HttpResponse.new(result.value!)
-          response.status = http_response.http_response_code
-
-          Representer::Airport.new(
-            result.value!.message
-          ).to_json
-        end
-      end
-
-      # routing.is 'flight' do
-      #   # POST /flight
-      #   routing.post do
-      #     trip_request = Request::NewTripQuery.new.call(routing.params)
-      #     trips = Service::FindTrips.new.call(trip_request)
-      #     if trips.failure?
-      #       flash[:error] = trips.failure
-      #       response.status = 400
-      #       routing.redirect '/'
-      #     end
-      #     view 'flight', locals:
-      #     {
-      #       trips: trips.value!,
-      #       trip_request: trip_request.values
-      #     }
-      #   end
-      # end
-
       routing.on 'api' do # rubocop:disable Metrics/BlockLength
+        routing.is 'currency/all' do
+          routing.get do
+            response.cache_control public: true, max_age: 300
+            result = Service::RetrieveCurrencies.new.call(routing.params)
+            if result.failure?
+              failed = Representer::HttpResponse.new(result.failure)
+              routing.halt failed.http_status_code, failed.to_json
+            end
+
+            http_response = Representer::HttpResponse.new(result.value!)
+            response.status = http_response.http_status_code
+
+            Representer::CurrenciesList.new(
+              result.value!.message
+            ).to_json
+          end
+        end
+
+        routing.on 'airport' do
+          routing.on String do |iata_code|
+            # GET /airport/{iata_code}
+            routing.get do
+              result = Service::SearchAirport.new.call(iata_code)
+              if result.failure?
+                failed = Representer::HttpResponse.new(result.failure)
+                routing.halt failed.http_status_code, failed.to_json
+              end
+
+              http_response = Representer::HttpResponse.new(result.value!)
+              response.status = http_response.http_status_code
+
+              Representer::Airport.new(
+                result.value!.message
+              ).to_json
+            end
+          end
+        end
+
+        routing.on 'airportlist' do
+          routing.on String do |iata_code_letter|
+            # GET /airport/{iata_code}
+            routing.get do
+              result = Service::GroupAirports.new.call(iata_code_letter)
+              if result.failure?
+                failed = Representer::HttpResponse.new(result.failure)
+                routing.halt failed.http_status_code, failed.to_json
+              end
+
+              http_response = Representer::HttpResponse.new(result.value!)
+              response.status = http_response.http_status_code
+
+              Representer::AirportList.new(
+                result.value!.message
+              ).to_json
+            end
+          end
+        end
+
         routing.on 'trips' do
           routing.on String do |query_code|
             # GET /trips/{query_code}
@@ -107,7 +111,7 @@ module ComfyWings
         routing.on 'trip_query' do
           # POST /trip_query
           routing.post do
-            trip_query = Request::NewTripQuery.new(routing.body.read)
+            trip_query = Request::NewTripQuery.new(routing.params.to_json)
             result = Service::AddTripQuery.new.call(trip_query)
 
             if result.failure?
@@ -121,6 +125,7 @@ module ComfyWings
           end
         end
       end
+      # rubocop:enable Metrics/BlockLength
     end
   end
 end

@@ -4,3 +4,5 @@ coverage/*
 .rake_tasks~
 *.db
 .bundle/*
+_cache/
+.vscode/

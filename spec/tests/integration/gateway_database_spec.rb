@@ -36,7 +36,7 @@ describe 'Integration Tests of AMADEUS API and Database' do
   end
 
   describe 'Retrive Airport by iata code' do
-    it 'HAPPY: should be able to save airports in database' do
+    it 'HAPPY: should be able to retrieve airports from database' do
       airport = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code('MAG')
 
       _(airport.airport_name).must_equal('Madang')
@@ -49,6 +49,14 @@ describe 'Integration Tests of AMADEUS API and Database' do
       reposit = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport)
       airports = reposit.all
       _(airports.size).must_equal(5879)
+    end
+
+    it 'HAPPY: should be able to retrieve group of airports' do
+      airport_list = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_from_start_letter('M')
+      _(airport_list[0].airport_name).must_equal('Madang')
+      _(airport_list[0].city_airport_name).must_equal('Madang')
+      _(airport_list[0].country).must_equal('Papua New Guinea')
+      _(airport_list[0].iata_code).must_equal('MAG')
     end
   end
 

@@ -16,15 +16,13 @@ module ComfyWings
       DB_ERR_MSG = 'Having trouble accessing the database'
       NOT_FOUND_ERR = 'Airport code incorrect'
 
-      def search_airport(input)
-        # TODO: update to search_airport_by_code and return all data attributes
-
-        airport_info = Repository::For.klass(Entity::Currency).find_code(input)
+      def search_airport(iata_code)
+        airport_info = Repository::For.klass(Entity::Airport).find_code(iata_code)
 
         if airport_info
           Success(Response::ApiResult.new(status: :ok, message: airport_info))
         else
-          Failure(Response::ApiResult.new(status: :incorrect_airport_code, message: NOT_FOUND_ERR))
+          Failure(Response::ApiResult.new(status: :not_found, message: NOT_FOUND_ERR))
         end
       rescue StandardError => e
         puts e.backtrace.join("\n")

@@ -21,6 +21,7 @@ module ComfyWings
         if new_trip_query.success?
           Success(new_trip_query.value!)
         else
+          puts new_trip_query.failure
           Failure(new_trip_query.failure)
         end
       end
@@ -40,7 +41,7 @@ module ComfyWings
         Repository::For.klass(Entity::TripQuery).find_code(code)
       end
 
-      def create_trip_query_entity(trip_request) # rubocop:disable Metrics/MethodLength
+      def create_trip_query_entity(trip_request) # rubocop:disable Metrics
         currency = ComfyWings::Repository::For.klass(ComfyWings::Entity::Currency).find_code(trip_request['currency'])
         code = Digest::MD5.hexdigest trip_request.to_s
         ComfyWings::Entity::TripQuery.new(
@@ -51,9 +52,9 @@ module ComfyWings
           destination: trip_request['destination'],
           departure_date: Date.parse(trip_request['departure_date']),
           arrival_date: Date.parse(trip_request['arrival_date']),
-          adult_qty: trip_request['adult_qty'],
-          children_qty: trip_request['children_qty'],
-          is_one_way: trip_request['is_one_way'],
+          adult_qty: trip_request['adult_qty'].to_i,
+          children_qty: trip_request['children_qty'].to_i,
+          is_one_way: trip_request['is_one_way'].to_s == 'true',
           is_new: true
         )
       end

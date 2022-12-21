@@ -3,6 +3,6 @@
 module ComfyWings
   module Response
     # Available airport
-    AirportsList = Struct.new(:airports)
+    Airport = Struct.new(:airports)
   end
 end
