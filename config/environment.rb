@@ -34,8 +34,8 @@ module ComfyWings
 
     configure :production do
       puts 'RUNNINGIN PRODUCTION MODE'
-      # Set DATABASE_URL environment variables on production platform 
-      
+      # Set DATABASE_URL environment variables on production platform
+
       use Rack::Cache,
           verbose: true,
           metastore: "#{config.REDISCLOUD_URL}/0/metastore",

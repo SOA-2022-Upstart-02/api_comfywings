@@ -25,6 +25,7 @@ module ComfyWings
         end
       end
 
+      # deliberately :reek:TooManyStatements calling method find_or_create_trips
       def find_or_create_trips(input)
         trips =
           if (new_trip_query = input[:new_trip_query])
@@ -61,6 +62,7 @@ module ComfyWings
         )
       end
 
+      # deliberately :reek:DuplicateMethodCall calling method create_trips_from_amadeus
       def create_trips_from_amadeus(trip_query)
         trips = Amadeus::TripMapper.new(App.config.AMADEUS_KEY, App.config.AMADEUS_SECRET).search(trip_query)
         ComfyWings::Repository::For.klass(Entity::Trip).create_many(trips)

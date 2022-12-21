@@ -8,6 +8,7 @@ require 'json'
 
 module ComfyWings
   # Main controller class for ComfyWings
+  # deliberately :reek:RepeatedConditional
   class App < Roda
     plugin :halt
     plugin :caching

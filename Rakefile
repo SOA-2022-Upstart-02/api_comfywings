@@ -42,6 +42,7 @@ task :respec do
   sh "rerun -c 'rake spec' --ignore 'coverage/*'"
 end
 
+# rubocop:disable Metrics/BlockLength
 namespace :db do
   task :config do
     require 'sequel'
@@ -138,6 +139,7 @@ namespace :cache do
   end
 end
 
+
 namespace :queues do
   task :config do
     require 'aws-sdk-sqs'
@@ -148,7 +150,7 @@ namespace :queues do
       secret_access_key: @api.config.AWS_SECRET_ACCESS_KEY,
       region: @api.config.AWS_REGION
     )
-    # @q_name = @api.config.CLONE_QUEUE TODO: Rename after trip query update 
+    # @q_name = @api.config.CLONE_QUEUE TODO: Rename after trip query update
     # @q_url = @sqs.get_queue_url(queue_name: @q_name).queue_url TODO: rename
 
     puts "Environment: #{@api.environment}"
@@ -159,7 +161,7 @@ namespace :queues do
     @sqs.create_queue(queue_name: @q_name)
 
     puts 'Queue created:'
-    # puts "  Name: #{@q_name}" TODO: rename
+    #  puts "  Name: #{@q_name}" TODO: rename
     puts "  Region: #{@api.config.AWS_REGION}"
     puts "  URL: #{@q_url}"
   rescue StandardError => e
@@ -179,15 +181,14 @@ namespace :queues do
   desc 'Purge messages in SQS queue for worker'
   task :purge => :config do
     @sqs.purge_queue(queue_url: @q_url)
-    # puts "Queue #{@q_name} purged" rename 
+    # puts "Queue #{@q_name} purged" rename
   rescue StandardError => e
     puts "Error purging queue: #{e}"
   end
 end
+# rubocop:enable Metrics/BlockLength
 
-# TODO: Add shoryuken
-
-
+#  TODO: Add shoryuken
 
 desc 'Run application console'
 task :console do
