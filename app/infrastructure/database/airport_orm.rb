@@ -10,6 +10,9 @@ module ComfyWings
       one_to_many :flight,
                   class: :'ComfyWings::Database::FlightOrm',
                   key: '%i[origin_id, destination_id]'
+      one_to_many :trip_query,
+                  class: :'ComfyWings::Database::TripQueryOrm',
+                  key: '%i[origin_id, destination_id]'
 
       def self.find(airport_info)
         first(iata_code: airport_info[:iata_code])

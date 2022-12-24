@@ -26,7 +26,7 @@ describe 'Test API routes' do
   describe 'Search trips route' do
     it 'should be able to find trips' do
       ComfyWings::Database::TripQueryOrm
-        .insert(currency_id: 2, code: QUERY_CODE, origin: 'TPE', destination: 'MAD',
+        .insert(currency_id: 2, code: QUERY_CODE, origin_id: 1592, destination_id: 902,
                 departure_date: Date.parse('2022-12-31'), arrival_date: Date.parse('2023-01-29'),
                 adult_qty: 1, children_qty: 2, is_one_way: false, is_new: true)
 
@@ -38,9 +38,9 @@ describe 'Test API routes' do
       _(trips.count).must_equal 58
       trip = trips.first
       _(trip['outbound_duration_form']['hours']).must_equal 47
-      # _(trip['currency']['code']).must_equal 'USD'
-      # _(trip['origin']['iata_code']).must_equal 'TPE'
-      # _(trip['destination']['iata_code']).must_equal 'MAD'
+      _(trip['currency']['code']).must_equal 'USD'
+      _(trip['origin']['iata_code']).must_equal 'TPE'
+      _(trip['destination']['iata_code']).must_equal 'MAD'
       _(trip['outbound_duration_form']['hours']).must_equal 47
       _(trip['outbound_duration_form']['minutes']).must_equal 10
       _(trip['inbound_duration_form']['hours']).must_equal 18
