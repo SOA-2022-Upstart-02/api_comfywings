@@ -8,7 +8,7 @@ module ComfyWings
   # ComfyWings Domain Modal
   module Entity
     # Domain entity for trip query arg
-    class TripQuery < Dry::Struct
+    class SingleTripQuery < Dry::Struct
       include Dry.Types
 
       attribute :id,             Integer.optional
@@ -17,7 +17,6 @@ module ComfyWings
       attribute :origin,         Airport
       attribute :destination,    Airport
       attribute :departure_date, Strict::Date
-      # attribute :arrival_date,   Strict::Date
       attribute :adult_qty,      Strict::Integer
       attribute :children_qty,   Strict::Integer
       attribute :is_one_way,     Strict::Bool

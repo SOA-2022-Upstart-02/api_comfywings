@@ -3,6 +3,6 @@
 module ComfyWings
   module Response
     # List of projects
-    TripsList = Struct.new(:trips)
+    SingleTripsList = Struct.new(:trips)
   end
 end

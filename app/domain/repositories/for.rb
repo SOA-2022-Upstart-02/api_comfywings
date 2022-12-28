@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'trip_queries'
+require_relative 'single_trip_queries'
+require_relative 'single_trips'
 require_relative 'currencies'
 require_relative 'flights'
 
@@ -9,11 +10,11 @@ module ComfyWings
     # Finds the right repository for an entity object or class
     module For
       ENTITY_REPOSITORY = {
-        Entity::TripQuery => TripQueries,
-        Entity::Currency  => Currencies,
-        Entity::Airport   => Airports,
-        Entity::Flight    => Flights,
-        Entity::Trip      => Trips
+        Entity::SingleTripQuery => SingleTripQueries,
+        Entity::Currency        => Currencies,
+        Entity::Airport         => Airports,
+        Entity::Flight          => Flights,
+        Entity::SingleTrip      => SingleTrips
       }.freeze
 
       def self.klass(entity_klass)

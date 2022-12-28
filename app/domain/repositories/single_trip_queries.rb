@@ -8,7 +8,7 @@ require_relative 'airports'
 module ComfyWings
   module Repository
     # Repository for Trip Queries
-    class TripQueries
+    class SingleTripQueries
       def self.find(entity)
         find_code(entity.code)
       end
@@ -41,7 +41,7 @@ module ComfyWings
       def self.rebuild_entity(db_record)
         return nil unless db_record
 
-        Entity::TripQuery.new(
+        Entity::SingleTripQuery.new(
           db_record.to_hash.merge(
             origin: Airports.rebuild_entity(db_record.origin),
             destination: Airports.rebuild_entity(db_record.destination),
@@ -52,7 +52,7 @@ module ComfyWings
 
       def self.rebuild_many(db_records)
         db_records.map do |db_member|
-          TripQueries.rebuild_entity(db_member)
+          SingleTripQueries.rebuild_entity(db_member)
         end
       end
     end
