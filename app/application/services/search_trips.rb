@@ -6,7 +6,7 @@ require 'digest'
 module ComfyWings
   module Service
     # Retrieves array of trips by tripQuery code
-    class SearchTrips
+    class SearchReturnTrips
       include Dry::Transaction
 
       step :valid_trip_query_exist
@@ -21,7 +21,7 @@ module ComfyWings
 
       # deliberately :reek:TooManyStatements calling method valid_trip_query_exist
       def valid_trip_query_exist(query_code)
-        trip_query = Repository::For.klass(Entity::TripQuery).find_code(query_code)
+        trip_query = Repository::For.klass(Entity::ReturnTripQuery).find_code(query_code)
         if trip_query
           Success(trip_query)
         else
@@ -61,21 +61,21 @@ module ComfyWings
       def create_trips_from_amadeus(trip_query)
         new_trips = Amadeus::TripMapper.new(App.config.AMADEUS_KEY, App.config.AMADEUS_SECRET).search(trip_query)
         update_query_status(trip_query.id)
-        ComfyWings::Repository::For.klass(Entity::Trip).create_many(new_trips)
-          .then { |trips| Response::TripsList.new(trips) }
+        ComfyWings::Repository::For.klass(Entity::ReturnTrip).create_many(new_trips)
+          .then { |trips| Response::ReturnTripsList.new(trips) }
           .then { |list| Response::ApiResult.new(status: :ok, message: list) }
           .then { |result| Success(result) }
       end
 
       def find_trips_from_database(query_id)
-        ComfyWings::Repository::For.klass(Entity::Trip).find_query_id(query_id)
-          .then { |trips| Response::TripsList.new(trips) }
+        ComfyWings::Repository::For.klass(Entity::ReturnTrip).find_query_id(query_id)
+          .then { |trips| Response::ReturnTripsList.new(trips) }
           .then { |list| Response::ApiResult.new(status: :ok, message: list) }
           .then { |result| Success(result) }
       end
 
       def update_query_status(id)
-        ComfyWings::Repository::For.klass(Entity::TripQuery).update_searched(id)
+        ComfyWings::Repository::For.klass(Entity::ReturnTripQuery).update_searched(id)
       end
     end
   end

@@ -35,7 +35,7 @@ module ComfyWings
         end
 
         def build_entity # rubocop:disable Metrics/MethodLength
-          ComfyWings::Entity::Trip.new(
+          ComfyWings::Entity::ReturnTrip.new(
             id: nil,
             query_id:,
             currency:,
