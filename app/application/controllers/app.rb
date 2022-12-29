@@ -94,7 +94,11 @@ module ComfyWings
           routing.on String do |query_code|
             # GET /trips/{query_code}
             routing.get do
-              result = Service::SearchReturnTrips.new.call(query_code)
+
+              # results
+              # result = Service::SearchReturnTrips.new.call(query_code)
+              # result = Service::SearchSingleTrips.new.call(query_code)
+
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)
                 routing.halt failed.http_status_code, failed.to_json
@@ -102,9 +106,14 @@ module ComfyWings
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
+              # representers
               Representer::ReturnTripsList.new(
                 result.value!.message
               ).to_json
+
+              # Representer::SingleTripsList.new(
+              #   result.value!.message
+              # ).to_json
             end
           end
         end
@@ -113,7 +122,10 @@ module ComfyWings
           # POST /trip_query
           routing.post do
             trip_query = Request::NewTripQuery.new(routing.params.to_json)
+
+            # searchers
             result = Service::AddReturnTripQuery.new.call(trip_query)
+            #result = Service::AddSingleTripQuery.new.call(trip_query)
 
             if result.failure?
               failed = Representer::HttpResponse.new(result.failure)
@@ -122,7 +134,10 @@ module ComfyWings
 
             http_response = Representer::HttpResponse.new(result.value!)
             response.status = http_response.http_status_code
+
+            # representers 
             Representer::ReturnTripQuery.new(result.value!.message).to_json
+            # Representer::SingleTripQuery.new(result.value!.message).to_json
           end
         end
       end

@@ -49,6 +49,21 @@ module ComfyWings
           )
         end
 
+        # def single_build_entity
+        #   ComfyWings::Entity::SingleTrip.new(
+        #     id: nil,
+        #     query_id:,
+        #     currency:,
+        #     origin:,
+        #     destination:,
+        #     outbound_duration:,
+        #     inbound_duration:,
+        #     price:,
+        #     is_one_way: one_way?,
+        #     flights:
+        #   )
+        # end
+
         def currency
           currency_code = @data['price']['currency']
           ComfyWings::Repository::For.klass(ComfyWings::Entity::Currency).find_code(currency_code)
