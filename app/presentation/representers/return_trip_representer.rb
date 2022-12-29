@@ -5,7 +5,7 @@ require 'roar/json'
 
 require_relative 'flight_representer'
 
-module ComfyWings 
+module ComfyWings
   module Representer
     # Represent Trip as Json
     class ReturnTrip < Roar::Decorator 
