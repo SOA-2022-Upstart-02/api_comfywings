@@ -14,7 +14,6 @@ module ComfyWings
       attribute :currency,            Currency
       attribute :origin,              Airport
       attribute :destination,         Airport
-      # attribute :inbound_duration,    Strict::String
       attribute :outbound_duration,   Strict::String
       attribute :price,               Strict::Decimal
       attribute :is_one_way,          Strict::Bool

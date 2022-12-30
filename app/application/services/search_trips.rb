@@ -6,7 +6,7 @@ require 'digest'
 module ComfyWings
   module Service
     # Retrieves array of trips by tripQuery code
-    class SearchReturnTrips
+    class SearchTrips
       include Dry::Transaction
 
       step :valid_trip_query_exist
@@ -21,7 +21,10 @@ module ComfyWings
 
       # deliberately :reek:TooManyStatements calling method valid_trip_query_exist
       def valid_trip_query_exist(query_code)
+
         trip_query = Repository::For.klass(Entity::ReturnTripQuery).find_code(query_code)
+        # trip_query = Repository::For.klass(Entity::SingleTripQuery).find_code(query_code)
+
         if trip_query
           Success(trip_query)
         else
@@ -47,35 +50,59 @@ module ComfyWings
       # deliberately :reek:DuplicateMethodCall calling method find_or_create_trips
       def find_or_create_trips(input)
         if input[:trip_query].is_new
-          create_trips_from_amadeus(input[:trip_query])
+          input[:trip_query].is_one_way ? create_single_trips_from_amadeus(input[:trip_query]) : create_return_trips_from_amadeus(input[:trip_query])
         else
-          find_trips_from_database(input[:trip_query].id)
+          input[:trip_query].is_one_way ? find_single_trips_from_database(input[:trip_query].id) : find_return_trips_from_database(input[:trip_query].id)
         end
       rescue StandardError => e
         puts e.backtrace.join("\n")
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR_MSG))
       end
 
+      # Return
       # deliberately :reek:TooManyStatements calling method create_trips_from_amadeus
       # deliberately :reek:DuplicateMethodCall calling method create_trips_from_amadeus
-      def create_trips_from_amadeus(trip_query)
+      def create_return_trips_from_amadeus(trip_query)
         new_trips = Amadeus::TripMapper.new(App.config.AMADEUS_KEY, App.config.AMADEUS_SECRET).search(trip_query)
-        update_query_status(trip_query.id)
+        update_return_query_status(trip_query.id)
         ComfyWings::Repository::For.klass(Entity::ReturnTrip).create_many(new_trips)
           .then { |trips| Response::ReturnTripsList.new(trips) }
           .then { |list| Response::ApiResult.new(status: :ok, message: list) }
           .then { |result| Success(result) }
       end
 
-      def find_trips_from_database(query_id)
+      def find_return_trips_from_database(query_id)
         ComfyWings::Repository::For.klass(Entity::ReturnTrip).find_query_id(query_id)
           .then { |trips| Response::ReturnTripsList.new(trips) }
           .then { |list| Response::ApiResult.new(status: :ok, message: list) }
           .then { |result| Success(result) }
       end
 
-      def update_query_status(id)
+      def update_return_query_status(id)
         ComfyWings::Repository::For.klass(Entity::ReturnTripQuery).update_searched(id)
+      end
+
+      # Single
+      # deliberately :reek:TooManyStatements calling method create_trips_from_amadeus
+      # deliberately :reek:DuplicateMethodCall calling method create_trips_from_amadeus
+      def create_single_trips_from_amadeus(trip_query)
+        new_trips = Amadeus::TripMapper.new(App.config.AMADEUS_KEY, App.config.AMADEUS_SECRET).search(trip_query)
+        update_single_query_status(trip_query.id)
+        ComfyWings::Repository::For.klass(Entity::SingleTrip).create_many(new_trips)
+          .then { |trips| Response::SingleTripsList.new(trips) }
+          .then { |list| Response::ApiResult.new(status: :ok, message: list) }
+          .then { |result| Success(result) }
+      end
+
+      def find_single_trips_from_database(query_id)
+        ComfyWings::Repository::For.klass(Entity::SingleTrip).find_query_id(query_id)
+          .then { |trips| Response::SingleTripsList.new(trips) }
+          .then { |list| Response::ApiResult.new(status: :ok, message: list) }
+          .then { |result| Success(result) }
+      end
+
+      def update_single_query_status(id)
+        ComfyWings::Repository::For.klass(Entity::SingleTripQuery).update_searched(id)
       end
     end
   end
