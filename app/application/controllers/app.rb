@@ -106,6 +106,19 @@ module ComfyWings
                 result.value!.message
               ).to_json
             end
+
+            routing.put do
+              routing.is 'update' do
+                result = Service::UpdateTrip.new.call(query_code)
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+                http_response.to_json
+              end
+            end
           end
         end
 

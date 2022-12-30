@@ -21,8 +21,7 @@ module ComfyWings
       end
 
       def self.find_from_start_letter(iata_code_letter)
-        letter = iata_code_letter[0]
-        rebuild_many Database::AirportOrm.where(Sequel.like(:iata_code, "#{letter}%"))
+        rebuild_many Database::AirportOrm.where(Sequel.like(:iata_code, "#{iata_code_letter}%")).limit(10)
       end
 
       def self.rebuild_entity(db_record)
