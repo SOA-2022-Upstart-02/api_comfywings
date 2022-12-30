@@ -36,16 +36,36 @@ gem 'dry-types', '~> 1'
 # INFRASTRUCTURE LAYER
 # Networking
 gem 'http', '~> 5'
+namespace :worker do
+  namespace :run do
+    desc 'Run the background cloning worker in development mode'
+    task :dev => :config do
+      sh 'RACK_ENV=development bundle exec shoryuken -r ./workers/git_clone_worker.rb -C ./workers/shoryuken_dev.yml'
+    end
 
-# Asynchronicity
-gem 'aws-sdk-sqs', '~> 1.48'
-gem 'shoryuken', '~> 5.3'
-gem 'whenever', require: false
+    desc 'Run the background cloning worker in testing mode'
+    task :test => :config do
+      sh 'RACK_ENV=test bundle exec shoryuken -r ./workers/git_clone_worker.rb -C ./workers/shoryuken_test.yml'
+    end
 
+    desc 'Run the background cloning worker in production mode'
+    task :production => :config do
+      sh 'RACK_ENV=production bundle exec shoryuken -r ./workers/git_clone_worker.rb -C ./workers/shoryuken.yml'
+    end
+  end
+end
 # Database
 gem 'hirb', '~> 0'
 gem 'hirb-unicode', '~> 0'
 gem 'sequel', '~> 5.49'
+
+# Asynchronicity
+gem 'aws-sdk-sqs', '~> 1.48'
+gem 'concurrent-ruby', '~>1.1'
+
+#  worker
+gem 'faye', '~>1.4'
+gem 'shoryuken', '~>5.3'
 
 group :development do
   gem 'rerun', '~> 0'

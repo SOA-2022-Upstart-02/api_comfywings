@@ -16,6 +16,7 @@ module ComfyWings
       DB_ERR_MSG = 'Having trouble accessing the database'
       NOT_FOUND_ERR = 'Airport code incorrect'
 
+      # deliberately :reek:TooManyStatements calling method search_airport
       def search_airport(iata_code)
         airport_info = Repository::For.klass(Entity::Airport).find_code(iata_code)
 

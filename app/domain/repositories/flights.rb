@@ -14,6 +14,7 @@ module ComfyWings
         rebuild_entity Database::FlightOrm.first(id:)
       end
 
+      # deliberately :reek:TooManyStatements calling method self.create
       def self.create(entity, trip)
         raise 'Query already exists' if find(entity)
 

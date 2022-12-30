@@ -15,6 +15,7 @@ module ComfyWings
 
       DB_ERR = 'We encountered an issue accessing the database.'
 
+      # deliberately :reek:TooManyStatements calling method retrieve_all
       def retrieve_all
         Repository::For.klass(Entity::Currency).all
           .then { |currency| Response::CurrenciesList.new(currency) }
