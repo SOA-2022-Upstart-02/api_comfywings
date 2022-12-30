@@ -77,9 +77,5 @@ module ComfyWings
         (1..children_qty).map { |num| { id: num + adult_qty, travelerType: 'CHILD' } }
       end
     end
-
-    def f1
-      puts Date.today
-    end
   end
 end

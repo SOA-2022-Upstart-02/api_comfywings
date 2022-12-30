@@ -37,6 +37,11 @@ gem 'dry-types', '~> 1'
 # Networking
 gem 'http', '~> 5'
 
+# Asynchronicity
+gem 'aws-sdk-sqs', '~> 1.48'
+gem 'shoryuken', '~> 5.3'
+gem 'whenever', require: false
+
 # Database
 gem 'hirb', '~> 0'
 gem 'hirb-unicode', '~> 0'

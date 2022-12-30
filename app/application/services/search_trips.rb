@@ -11,6 +11,7 @@ module ComfyWings
 
       step :valid_trip_query_exist
       step :valid_trip_query_status
+      step :request_update_worker
       step :find_or_create_trips
 
       private
@@ -35,18 +36,27 @@ module ComfyWings
         if trip_query.departure_date <= Date.today
           Failure(Response::ApiResult.new(status: :bad_request, message: EXPIRED_MSG))
         else
-          Success(trip_query:)
+          Success(trip_query)
         end
       rescue StandardError => e
         puts e.backtrace.join("\n")
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR_MSG))
       end
 
-      def find_or_create_trips(input)
-        if input[:trip_query].is_new
-          create_trips_from_amadeus(input[:trip_query])
+      def request_update_worker(trip_query)
+        queue = Messaging::Queue.new(App.config.UPDATE_QUEUE_URL, App.config)
+        queue.send(trip_query.code)
+        Success(trip_query)
+      rescue StandardError => e
+        puts e.backtrace.join("\n")
+        Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR_MSG))
+      end
+
+      def find_or_create_trips(trip_query)
+        if trip_query.is_new
+          create_trips_from_amadeus(trip_query)
         else
-          find_trips_from_database(input[:trip_query].id)
+          find_trips_from_database(trip_query.id)
         end
       rescue StandardError => e
         puts e.backtrace.join("\n")
