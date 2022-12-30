@@ -41,11 +41,6 @@ task :rerun do
   sh "rerun -c --ignore 'coverage/*' --ignore 'repostore/*' -- bundle exec puma -p 9090"
 end
 
-desc 'Keep restarting web app in dev mode upon changes'
-task :rerun do
-  sh "rerun -c --ignore 'coverage/*' --ignore 'repostore/*' -- bundle exec puma -p 9090"
-end
-
 # rubocop:disable Metrics/BlockLength
 namespace :db do
   task :config do
