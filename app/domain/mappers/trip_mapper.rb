@@ -35,7 +35,7 @@ module ComfyWings
         end
 
         def build_entity # rubocop:disable Metrics/MethodLength
-          ComfyWings::Entity::ReturnTrip.new(
+          ComfyWings::Entity::Trip.new(
             id: nil,
             query_id:,
             currency:,
@@ -48,21 +48,6 @@ module ComfyWings
             flights:
           )
         end
-
-        # def single_build_entity
-        #   ComfyWings::Entity::SingleTrip.new(
-        #     id: nil,
-        #     query_id:,
-        #     currency:,
-        #     origin:,
-        #     destination:,
-        #     outbound_duration:,
-        #     inbound_duration:,
-        #     price:,
-        #     is_one_way: one_way?,
-        #     flights:
-        #   )
-        # end
 
         def currency
           currency_code = @data['price']['currency']

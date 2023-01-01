@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'return_trips'
-require_relative 'single_trips'
+require_relative 'trips'
 
 
 module ComfyWings

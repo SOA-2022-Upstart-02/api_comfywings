@@ -2,7 +2,7 @@
 
 module ComfyWings
   module Response
-    # List return trips
-    ReturnTripsList = Struct.new(:trips)
+    # List of trips
+    TripsList = Struct.new(:trips)
   end
 end

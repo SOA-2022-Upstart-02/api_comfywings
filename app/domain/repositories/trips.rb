@@ -7,7 +7,7 @@ require_relative 'airports'
 module ComfyWings
   module Repository
     # Repository for Trips
-    class ReturnTrips
+    class Trips
       def self.find(entity)
         find_id(entity.id)
       end
@@ -49,14 +49,14 @@ module ComfyWings
 
       def self.create_many(entities)
         entities.map do |entity|
-          ReturnTrips.create(entity)
+          Trips.create(entity)
         end
       end
 
       def self.rebuild_entity(db_record)
         return nil unless db_record
 
-        Entity::ReturnTrip.new(
+        Entity::Trip.new(
           db_record.to_hash.merge(
             origin: Airports.rebuild_entity(db_record.origin),
             destination: Airports.rebuild_entity(db_record.destination),
@@ -68,7 +68,7 @@ module ComfyWings
 
       def self.rebuild_many(db_records)
         db_records.map do |db_member|
-          ReturnTrips.rebuild_entity(db_member)
+          Trips.rebuild_entity(db_member)
         end
       end
 

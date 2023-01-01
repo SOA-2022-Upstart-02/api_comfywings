@@ -92,7 +92,6 @@ module ComfyWings
           routing.on String do |query_code|
             # GET /trips/{query_code}
             routing.get do
-              
               result = Service::SearchTrips.new.call(query_code)
 
               if result.failure?
@@ -102,12 +101,9 @@ module ComfyWings
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
-              message = result.value!.message
-              if message.first[0].is_one_way
-                Representer::SingleTripsList.new(result.value!.message).to_json
-              else
-                Representer::ReturnTripsList.new(result.value!.message).to_json
-              end
+              Representer::TripsList.new(
+                result.value!.message
+              ).to_json
             end
           end
         end
