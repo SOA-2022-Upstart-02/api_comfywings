@@ -47,6 +47,7 @@ module ComfyWings
       def create_trip_query_entity(trip_request) # rubocop:disable Metrics/MethodLength
         currency = ComfyWings::Repository::For.klass(ComfyWings::Entity::Currency).find_code('TWD')
         code = Digest::MD5.hexdigest trip_request.to_h.to_s
+
         ComfyWings::Entity::TripQuery.new(
           id: nil,
           code:,
@@ -57,7 +58,7 @@ module ComfyWings
           arrival_date: trip_request[:date_end],
           adult_qty: trip_request[:adult_qty],
           children_qty: trip_request[:children_qty],
-          is_one_way: false, # TODO: change from trip_request
+          is_one_way: true, # TODO: change from trip_request
           is_new: true
         )
       end

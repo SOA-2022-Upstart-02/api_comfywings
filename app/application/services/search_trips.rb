@@ -22,6 +22,7 @@ module ComfyWings
       # deliberately :reek:TooManyStatements calling method valid_trip_query_exist
       def valid_trip_query_exist(query_code)
         trip_query = Repository::For.klass(Entity::TripQuery).find_code(query_code)
+
         if trip_query
           Success(trip_query)
         else
@@ -56,11 +57,13 @@ module ComfyWings
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR_MSG))
       end
 
+      # Return
       # deliberately :reek:TooManyStatements calling method create_trips_from_amadeus
       # deliberately :reek:DuplicateMethodCall calling method create_trips_from_amadeus
       def create_trips_from_amadeus(trip_query)
         new_trips = Amadeus::TripMapper.new(App.config.AMADEUS_KEY, App.config.AMADEUS_SECRET).search(trip_query)
         update_query_status(trip_query.id)
+
         ComfyWings::Repository::For.klass(Entity::Trip).create_many(new_trips)
           .then { |trips| Response::TripsList.new(trips) }
           .then { |list| Response::ApiResult.new(status: :ok, message: list) }

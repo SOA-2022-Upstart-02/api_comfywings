@@ -21,7 +21,6 @@ module ComfyWings
         if new_trip_query.success?
           Success(new_trip_query.value!)
         else
-          # puts new_trip_query.failure
           Failure(new_trip_query.failure)
         end
       end
@@ -46,6 +45,8 @@ module ComfyWings
         origin = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code(trip_request['origin'])
         destination = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code(trip_request['destination'])
 
+        arrival_date = trip_request['arrival_date'].empty? ? nil : Date.parse(trip_request['arrival_date'])
+
         code = Digest::MD5.hexdigest trip_request.to_s
         ComfyWings::Entity::TripQuery.new(
           id: nil,
@@ -54,7 +55,9 @@ module ComfyWings
           origin:,
           destination:,
           departure_date: Date.parse(trip_request['departure_date']),
-          arrival_date: Date.parse(trip_request['arrival_date']),
+          # arrival_date: Date.parse(trip_request['arrival_date']),
+          # arrival_date: nil,
+          arrival_date: arrival_date,
           adult_qty: trip_request['adult_qty'].to_i,
           children_qty: trip_request['children_qty'].to_i,
           is_one_way: trip_request['is_one_way'].to_s == 'true',

@@ -2,6 +2,7 @@
 
 require_relative 'trips'
 
+
 module ComfyWings
   module Repository
     # Repository for Flights

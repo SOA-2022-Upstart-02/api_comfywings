@@ -2,7 +2,7 @@
 
 module ComfyWings
   module Response
-    # List of projects
+    # List of trips
     TripsList = Struct.new(:trips)
   end
 end

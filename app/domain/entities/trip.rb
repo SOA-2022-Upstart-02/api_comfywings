@@ -37,19 +37,19 @@ module ComfyWings
       end
 
       def inbound_duration_form
-        is_one_way ? nil : ActiveSupport::Duration.parse(inbound_duration).parts
+        is_one_way ? 'nil' : ActiveSupport::Duration.parse(inbound_duration).parts
       end
 
       def inbound_flights
-        flights.select(&:is_return)
+        is_one_way ? nil : flights.select(&:is_return)
       end
 
       def inbound_departure_time
-        is_one_way ? nil : inbound_flights.first.departure_time
+        is_one_way ? 'nil' : inbound_flights.first.departure_time
       end
 
       def inbound_arrival_time
-        is_one_way ? nil : inbound_flights.last.arrival_time
+        is_one_way ? 'nil' : inbound_flights.last.arrival_time
       end
 
       def price_form
