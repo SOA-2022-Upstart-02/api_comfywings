@@ -21,9 +21,7 @@ module ComfyWings
 
       # deliberately :reek:TooManyStatements calling method valid_trip_query_exist
       def valid_trip_query_exist(query_code)
-
-        #trip_query = Repository::For.klass(Entity::ReturnTripQuery).find_code(query_code)
-        trip_query = Repository::For.klass(Entity::SingleTripQuery).find_code(query_code)
+        trip_query = Repository::For.klass(Entity::TripQuery).find_code(query_code)
 
         if trip_query
           Success(trip_query)
@@ -64,10 +62,7 @@ module ComfyWings
       # deliberately :reek:DuplicateMethodCall calling method create_trips_from_amadeus
       def create_trips_from_amadeus(trip_query)
         new_trips = Amadeus::TripMapper.new(App.config.AMADEUS_KEY, App.config.AMADEUS_SECRET).search(trip_query)
-        update_single_query_status(trip_query.id)
-
-        # new_trips = Amadeus::TripMapper.new(App.config.AMADEUS_KEY, App.config.AMADEUS_SECRET).search(trip_query)
-        # update_return_query_status(trip_query.id)
+        update_query_status(trip_query.id)
 
         ComfyWings::Repository::For.klass(Entity::Trip).create_many(new_trips)
           .then { |trips| Response::TripsList.new(trips) }
@@ -82,12 +77,8 @@ module ComfyWings
           .then { |result| Success(result) }
       end
 
-      def update_return_query_status(id)
-        ComfyWings::Repository::For.klass(Entity::ReturnTripQuery).update_searched(id)
-      end
-
-      def update_single_query_status(id)
-        ComfyWings::Repository::For.klass(Entity::SingleTripQuery).update_searched(id)
+      def update_query_status(id)
+        ComfyWings::Repository::For.klass(Entity::TripQuery).update_searched(id)
       end
     end
   end

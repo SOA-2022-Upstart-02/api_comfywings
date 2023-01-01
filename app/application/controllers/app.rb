@@ -113,7 +113,7 @@ module ComfyWings
           routing.post do
             trip_query = Request::NewTripQuery.new(routing.params.to_json)
 
-            result = routing.params['is_one_way'] == 'true' ? Service::AddSingleTripQuery.new.call(trip_query) : Service::AddReturnTripQuery.new.call(trip_query)
+            result = Service::AddTripQuery.new.call(trip_query)
 
             if result.failure?
               failed = Representer::HttpResponse.new(result.failure)
@@ -123,8 +123,8 @@ module ComfyWings
             http_response = Representer::HttpResponse.new(result.value!)
             response.status = http_response.http_status_code
 
-            # representers
-            routing.params['is_one_way'] == 'true' ? Representer::SingleTripQuery.new(result.value!.message).to_json : Representer::ReturnTripQuery.new(result.value!.message).to_json
+            Representer::TripQuery.new(result.value!.message).to_json
+
           end
         end
       end

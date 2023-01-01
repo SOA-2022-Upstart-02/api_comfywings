@@ -6,7 +6,7 @@ require 'digest'
 module ComfyWings
   module Service
     # get trip query from request object and create a new trip query if not exist in db
-    class AddReturnTripQuery
+    class AddTripQuery
       include Dry::Transaction
 
       step :validate_trip_query
@@ -27,7 +27,7 @@ module ComfyWings
 
       def retrieve_trip_query(input)
         unless (trip_query = query_in_database(input))
-          trip_query = Repository::For.klass(Entity::ReturnTripQuery).create(create_trip_query_entity(input))
+          trip_query = Repository::For.klass(Entity::TripQuery).create(create_trip_query_entity(input))
         end
         Success(Response::ApiResult.new(status: :ok, message: trip_query))
       rescue StandardError => e
@@ -37,7 +37,7 @@ module ComfyWings
 
       def query_in_database(input)
         code = Digest::MD5.hexdigest input.to_s
-        Repository::For.klass(Entity::ReturnTripQuery).find_code(code)
+        Repository::For.klass(Entity::TripQuery).find_code(code)
       end
 
       def create_trip_query_entity(trip_request) # rubocop:disable Metrics
@@ -45,15 +45,21 @@ module ComfyWings
         origin = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code(trip_request['origin'])
         destination = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code(trip_request['destination'])
 
+        # Check arrival date
+        puts "single arrival date #{trip_request['arrival_date']}"
+        arrival_date = trip_request['arrival_date'].empty? ? nil : Date.parse(trip_request['arrival_date'])
+
         code = Digest::MD5.hexdigest trip_request.to_s
-        ComfyWings::Entity::ReturnTripQuery.new(
+        ComfyWings::Entity::TripQuery.new(
           id: nil,
           code:,
           currency:,
           origin:,
           destination:,
           departure_date: Date.parse(trip_request['departure_date']),
-          arrival_date: Date.parse(trip_request['arrival_date']),
+          #arrival_date: Date.parse(trip_request['arrival_date']),
+          # arrival_date: nil,
+          arrival_date: arrival_date,
           adult_qty: trip_request['adult_qty'].to_i,
           children_qty: trip_request['children_qty'].to_i,
           is_one_way: trip_request['is_one_way'].to_s == 'true',

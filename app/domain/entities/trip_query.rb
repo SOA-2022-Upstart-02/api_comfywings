@@ -4,11 +4,12 @@ require 'date'
 require 'dry-struct'
 require 'dry-types'
 
+Dry::Types.load_extensions(:maybe)
 module ComfyWings
   # ComfyWings Domain Modal
   module Entity
     # Domain entity for trip query arg
-    class ReturnTripQuery < Dry::Struct
+    class TripQuery < Dry::Struct
       include Dry.Types
 
       attribute :id,             Integer.optional
@@ -17,7 +18,7 @@ module ComfyWings
       attribute :origin,         Airport
       attribute :destination,    Airport
       attribute :departure_date, Strict::Date
-      attribute :arrival_date,   Strict::Date
+      attribute :arrival_date,   Nominal::Date #Strict::Nil, Maybe::Strict::Date
       attribute :adult_qty,      Strict::Integer
       attribute :children_qty,   Strict::Integer
       attribute :is_one_way,     Strict::Bool
