@@ -36,21 +36,21 @@ module ComfyWings
         outbound_flights.last.arrival_time
       end
 
-      # def inbound_duration_form
-      #   ActiveSupport::Duration.parse(inbound_duration).parts
-      # end
+      def inbound_duration_form
+        ActiveSupport::Duration.parse(inbound_duration).parts
+      end
 
       def inbound_flights
         flights.select(&:is_return)
       end
 
-      # def inbound_departure_time
-      #   inbound_flights.first.departure_time
-      # end
+      def inbound_departure_time
+        inbound_flights.first.departure_time
+      end
 
-      # def inbound_arrival_time
-      #   inbound_flights.last.arrival_time
-      # end
+      def inbound_arrival_time
+        inbound_flights.last.arrival_time
+      end
 
       def price_form
         "#{price.truncate}.#{format('%02d', (price.frac * 100).truncate)}"
