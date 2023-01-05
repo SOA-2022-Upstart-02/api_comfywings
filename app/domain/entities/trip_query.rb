@@ -17,7 +17,7 @@ module ComfyWings
       attribute :origin,         Strict::String
       attribute :destination,    Strict::String
       attribute :departure_date, Strict::Date
-      attribute :arrival_date,   Strict::Date
+      attribute :arrival_date,   Date.optional
       attribute :adult_qty,      Strict::Integer
       attribute :children_qty,   Strict::Integer
       attribute :is_one_way,     Strict::Bool
