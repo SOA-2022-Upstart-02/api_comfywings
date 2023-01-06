@@ -94,7 +94,7 @@ module ComfyWings
           routing.on String do |query_code|
             # GET /trips/{query_code}
             routing.get do
-              result = Service::SearchTrips.new.call(query_code)
+              result = Service::SearchTrips.new.call(query_code:, sort: routing.params['sorting'])
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)
                 routing.halt failed.http_status_code, failed.to_json
@@ -139,7 +139,6 @@ module ComfyWings
           end
         end
       end
-      # rubocop:enable Metrics/BlockLength
     end
   end
 end

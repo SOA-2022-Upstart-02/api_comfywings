@@ -5,17 +5,17 @@ require 'roar/json'
 
 require_relative 'flight_representer'
 
-module ComfyWings 
+module ComfyWings
   module Representer
     # Represent Trip as Json
-    class Trip < Roar::Decorator 
+    class Trip < Roar::Decorator
       include Roar::JSON
       include Roar::Hypermedia
       include Roar::Decorator::HypermediaConsumer
 
       property :id
       property :query_id
-      property :currency, extend: Representer::Currency, class: OpenStruct 
+      property :currency, extend: Representer::Currency, class: OpenStruct
       property :origin, extend: Representer::Airport, class: OpenStruct
       property :destination, extend: Representer::Airport, class: OpenStruct
       property :outbound_duration_form

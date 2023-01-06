@@ -24,6 +24,11 @@ module ComfyWings
         ActiveSupport::Duration.parse(outbound_duration).parts
       end
 
+      def duration_minutes
+        outbound_minutes = ActiveSupport::Duration.parse(outbound_duration).in_minutes
+        is_one_way ? outbound_minutes : outbound_minutes + ActiveSupport::Duration.parse(inbound_duration).in_minutes
+      end
+
       def outbound_flights
         flights.reject(&:is_return)
       end

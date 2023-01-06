@@ -10,7 +10,7 @@ module ComfyWings
 
       step :remove_old_trips
       step :get_new_trips
-      step :create_new_trips 
+      step :create_new_trips
 
       private
 
@@ -37,7 +37,7 @@ module ComfyWings
       end
 
       def create_new_trips(new_trips)
-        ComfyWings::Repository::For.klass(Entity::Trip).create_many(new_trips)        
+        ComfyWings::Repository::For.klass(Entity::Trip).create_many(new_trips)
         Success(Response::ApiResult.new(status: :ok, message: 'update trips success!'))
       end
 
