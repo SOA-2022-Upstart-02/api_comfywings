@@ -27,6 +27,7 @@ module ComfyWings
       property :price_form
       collection :outbound_flights, extend: Representer::Flight, class: OpenStruct
       collection :inbound_flights, extend: Representer::Flight, class: OpenStruct
+      property :happiness, extend: Representer::TripHappiness, class: OpenStruct
 
       # link :self do
       # end

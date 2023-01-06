@@ -9,13 +9,15 @@ module ComfyWings
       WIDEBODY_PLANES = Regexp.union([/787/, /777/, /767/, /747/, /A33\d/, /A35\d/, /A38\d/].freeze)
       NARROWBODY_PLANES = Regexp.union([/737/, /757/, /A32\d/, /EMBRAER.*/].freeze)
       COMFORTABLE_CLASSES = ['PREMIUM ECONOMY', 'BUSINESS', 'FIRST'].freeze
+      ONE_HOUR = 60.0
 
-      attr_reader :plane_model, :arrival_time, :departure_time, :arrival_date
+      attr_reader :plane_model, :cabin_class, :arrival_time, :duration
     
-      def initialize(plane_model, cabin_class, arrival_time)
+      def initialize(plane_model, cabin_class, arrival_time, duration)
         @plane_model = plane_model
         @cabin_class = cabin_class
         @arrival_time = arrival_time
+        @duration = duration
       end
 
       def widebody?
@@ -24,6 +26,10 @@ module ComfyWings
 
       def narrowbody?
         NARROWBODY_PLANES === @plane_model
+      end
+
+      def duration_to_hours
+        duration[:minutes] ? (duration[:hours] + (duration[:minutes] / ONE_HOUR)) : duration[:hours]
       end
 
       def score
