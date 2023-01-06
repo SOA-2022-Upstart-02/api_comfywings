@@ -55,7 +55,6 @@ module ComfyWings
       end
 
       def find_or_create_trips(input)
-        puts input
         if input[:trip_query].is_new
           create_trips_from_amadeus(input)
         else
