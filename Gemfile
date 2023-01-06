@@ -42,6 +42,14 @@ gem 'hirb', '~> 0'
 gem 'hirb-unicode', '~> 0'
 gem 'sequel', '~> 5.49'
 
+# Asynchronicity
+gem 'aws-sdk-sqs', '~> 1.48'
+gem 'concurrent-ruby', '~>1.1'
+
+#  worker
+gem 'faye', '~>1.4'
+gem 'shoryuken', '~>5.3'
+
 group :development do
   gem 'rerun', '~> 0'
 end

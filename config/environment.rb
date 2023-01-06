@@ -21,12 +21,6 @@ module ComfyWings
       path: File.expand_path('config/secrets.yml')
     )
     Figaro.load
-    # Environment variables setup
-    Figaro.application = Figaro::Application.new(
-      environment:,
-      path: File.expand_path('config/secrets.yml')
-    )
-    Figaro.load
 
     def self.config = Figaro.env
 
@@ -39,6 +33,9 @@ module ComfyWings
     end
 
     configure :production do
+      puts 'RUNNINGIN PRODUCTION MODE'
+      # Set DATABASE_URL environment variables on production platform
+
       use Rack::Cache,
           verbose: true,
           metastore: "#{config.REDISCLOUD_URL}/0/metastore",
@@ -55,10 +52,7 @@ module ComfyWings
     use Rack::Session::Cookie, secret: config.SESSION_SECRET
 
     configure :development, :test do
-      ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"
-    end
-
-    configure :development, :test do
+      require 'pry'; # for breakpoints
       ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"
     end
 

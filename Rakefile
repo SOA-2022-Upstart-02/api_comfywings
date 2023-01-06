@@ -7,12 +7,6 @@ task :default do
   puts `rake -T`
 end
 
-desc 'Run unit and integration test'
-Rake::TestTask.new(:spec) do |t|
-  t.pattern = 'spec/tests/{integration, unit}/**/*_spec.rb'
-  t.warning = false
-end
-
 desc 'Run unit and integration tests'
 Rake::TestTask.new(:spec_all) do |t|
   t.pattern = 'spec/tests/**/*_spec.rb'
@@ -28,7 +22,7 @@ end
 namespace :run do
   desc 'Starts API in dev mode (rerun)'
   task :dev do
-    sh "rerun -c --ignore 'coverage/*' 'bundle exec puma -p 9090'"
+    sh 'bundle exec puma -p 9090'
   end
 
   desc 'Starts API in test mode'
@@ -40,6 +34,11 @@ end
 desc 'Keep rerunning tests upon changes'
 task :respec do
   sh "rerun -c 'rake spec' --ignore 'coverage/*'"
+end
+
+desc 'Keep restarting web app in dev mode upon changes'
+task :rerun do
+  sh "rerun -c --ignore 'coverage/*' --ignore 'repostore/*' -- bundle exec puma -p 9090"
 end
 
 namespace :db do
@@ -210,5 +209,141 @@ namespace :cache do
         wiped.each_key { |key| puts "Wiped: #{key}" }
       end
     end
+  end
+end
+
+namespace :queues do
+  task :config do
+    require 'aws-sdk-sqs'
+    require_relative 'config/environment' # load config info
+    @api = ComfyWings::App
+    @sqs = Aws::SQS::Client.new(
+      access_key_id: @api.config.AWS_ACCESS_KEY_ID,
+      secret_access_key: @api.config.AWS_SECRET_ACCESS_KEY,
+      region: @api.config.AWS_REGION
+    )
+    # @q_name = @api.config.CLONE_QUEUE TODO: Rename after trip query update
+    # @q_url = @sqs.get_queue_url(queue_name: @q_name).queue_url TODO: rename
+
+    puts "Environment: #{@api.environment}"
+  end
+
+  desc 'Create SQS queue for worker'
+  task :create => :config do
+    @sqs.create_queue(queue_name: @q_name)
+
+    puts 'Queue created:'
+    #  puts "  Name: #{@q_name}" TODO: rename
+    puts "  Region: #{@api.config.AWS_REGION}"
+    puts "  URL: #{@q_url}"
+  rescue StandardError => e
+    puts "Error creating queue: #{e}"
+  end
+
+  desc 'Report status of queue for worker'
+  task :status => :config do
+    puts 'Queue info:'
+    # puts "  Name: #{@q_name}" TODO: rename
+    puts "  Region: #{@api.config.AWS_REGION}"
+    puts "  URL: #{@q_url}"
+  rescue StandardError => e
+    puts "Error finding queue: #{e}"
+  end
+
+  desc 'Purge messages in SQS queue for worker'
+  task :purge => :config do
+    @sqs.purge_queue(queue_url: @q_url)
+    # puts "Queue #{@q_name} purged" rename
+  rescue StandardError => e
+    puts "Error purging queue: #{e}"
+  end
+end
+#  TODO: Add shoryuken
+
+desc 'Run application console'
+task :console do
+  sh 'pry -r ./load_all'
+end
+
+namespace :vcr do
+  desc 'Delete cassette fixtures'
+  task :wipe do
+    sh 'rm spec/fixtures/cassettes/*.yml' do |ok, _|
+      puts(ok ? 'Cassettes deleted successfully.' : 'Cassettes not found.')
+    end
+  end
+end
+
+namespace :quality do
+  only_app = 'config/ app/'
+
+  desc 'Run all static-analysis quality checks'
+  task all: %i[rubocop reek flog]
+
+  desc 'Only check for unidiomatic code'
+  task :rubocop do
+    sh 'rubocop'
+  end
+
+  desc 'Check for unidiomatic code and safely autocorrect violations.'
+  task :rubocop_autocorrect do
+    sh 'rubocop --autocorrect'
+  end
+
+  desc 'Only check for code smells'
+  task :reek do
+    sh 'reek'
+  end
+
+  desc 'Only analyze code complexity'
+  task :flog do
+    sh "flog -m #{only_app}"
+  end
+end
+
+namespace :queues do
+  task :config do
+    require 'aws-sdk-sqs'
+    require_relative 'config/environment' # load config info
+    @api = ComfyWings::App
+    @sqs = Aws::SQS::Client.new(
+      access_key_id: @api.config.AWS_ACCESS_KEY_ID,
+      secret_access_key: @api.config.AWS_SECRET_ACCESS_KEY,
+      region: @api.config.AWS_REGION
+    )
+    @q_name = @api.config.UPDATE_QUEUE
+    @q_url = @sqs.get_queue_url(queue_name: @q_name).queue_url
+
+    puts "Environment: #{@api.environment}"
+  end
+
+  desc 'Create SQS queue for worker'
+  task :create => :config do
+    @sqs.create_queue(queue_name: @q_name)
+
+    puts 'Queue created:'
+    puts "  Name: #{@q_name}"
+    puts "  Region: #{@api.config.AWS_REGION}"
+    puts "  URL: #{@q_url}"
+  rescue StandardError => e
+    puts "Error creating queue: #{e}"
+  end
+
+  desc 'Report status of queue for worker'
+  task :status => :config do
+    puts 'Queue info:'
+    puts "  Name: #{@q_name}"
+    puts "  Region: #{@api.config.AWS_REGION}"
+    puts "  URL: #{@q_url}"
+  rescue StandardError => e
+    puts "Error finding queue: #{e}"
+  end
+
+  desc 'Purge messages in SQS queue for worker'
+  task :purge => :config do
+    @sqs.purge_queue(queue_url: @q_url)
+    puts "Queue #{@q_name} purged"
+  rescue StandardError => e
+    puts "Error purging queue: #{e}"
   end
 end

@@ -17,7 +17,7 @@ module ComfyWings
       attribute :origin,         Strict::String
       attribute :destination,    Strict::String
       attribute :departure_date, Strict::Date
-      attribute :arrival_date,   Strict::Date
+      attribute :arrival_date,   Date.optional
       attribute :adult_qty,      Strict::Integer
       attribute :children_qty,   Strict::Integer
       attribute :is_one_way,     Strict::Bool
@@ -76,10 +76,6 @@ module ComfyWings
       def create_child_travelers
         (1..children_qty).map { |num| { id: num + adult_qty, travelerType: 'CHILD' } }
       end
-    end
-
-    def f1
-      puts Date.today
     end
   end
 end

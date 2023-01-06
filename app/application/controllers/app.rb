@@ -8,6 +8,7 @@ require 'json'
 
 module ComfyWings
   # Main controller class for ComfyWings
+  # deliberately :reek:RepeatedConditional
   class App < Roda
     plugin :halt
     plugin :caching
@@ -93,7 +94,7 @@ module ComfyWings
           routing.on String do |query_code|
             # GET /trips/{query_code}
             routing.get do
-              result = Service::SearchTrips.new.call(query_code)
+              result = Service::SearchTrips.new.call(query_code:, sort: routing.params['sorting'])
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)
                 routing.halt failed.http_status_code, failed.to_json
@@ -104,6 +105,19 @@ module ComfyWings
               Representer::TripsList.new(
                 result.value!.message
               ).to_json
+            end
+
+            routing.put do
+              routing.is 'update' do
+                result = Service::UpdateTrip.new.call(query_code)
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+                http_response.to_json
+              end
             end
           end
         end
@@ -125,7 +139,6 @@ module ComfyWings
           end
         end
       end
-      # rubocop:enable Metrics/BlockLength
     end
   end
 end

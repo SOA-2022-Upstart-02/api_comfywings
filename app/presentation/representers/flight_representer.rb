@@ -17,6 +17,7 @@ module ComfyWings
       property :departure_time
       property :arrival_time
       property :cabin_class
+      property :happiness, extend: Representer::FlightHappiness, class: OpenStruct
     end
   end
 end

@@ -3,6 +3,7 @@
 module ComfyWings
   module Amadeus
     # Data Mapper: Amadeus Flight-offer Segments -> Flight entity
+    # deliberately :reek:LongParameterList calling method FlightMApper
     class FlightMapper
       def load_several(flight_datas, fare_details, aircraft_list, is_return)
         flight_datas.map do |flight_data|
@@ -10,6 +11,7 @@ module ComfyWings
         end
       end
 
+      # deliberately :reek:LongParameterList calling method self.build_entity
       def self.build_entity(flight_data, fare_details, aircraft_list, is_return)
         DataMapper.new(flight_data, fare_details, aircraft_list, is_return).build_entity
       end

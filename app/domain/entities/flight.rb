@@ -30,6 +30,10 @@ module ComfyWings
       def duration_form
         ActiveSupport::Duration.parse(duration).parts
       end
+
+      def happiness
+        Mapper::FlightHappiness.new(self).to_entity
+      end
     end
   end
 end

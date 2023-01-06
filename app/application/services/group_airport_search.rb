@@ -15,6 +15,7 @@ module ComfyWings
 
       DB_ERR = 'We encountered an issue accessing the database.'
 
+      # deliberately :reek:TooManyStatements calling method group_all
       def group_all(iata_code_letter)
         Repository::For.klass(Entity::Airport).find_from_start_letter(iata_code_letter)
           .then { |airport| Response::AirportsList.new(airport) }

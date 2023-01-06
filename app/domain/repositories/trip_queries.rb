@@ -19,6 +19,10 @@ module ComfyWings
         rebuild_entity Database::TripQueryOrm.first(id:).update(is_new: false)
       end
 
+      def self.all
+        rebuild_many Database::TripQueryOrm.all
+      end
+
       def self.create(entity)
         raise 'Query already exists' if find(entity)
 
@@ -26,6 +30,10 @@ module ComfyWings
         db_trip_query = Database::TripQueryOrm.create(entity.to_attr_hash)
         db_trip_query.update(currency:)
         rebuild_entity(db_trip_query)
+      end
+
+      def self.delete(code)
+        Database::TripQueryOrm.where(code:).delete
       end
 
       def self.rebuild_entity(db_record)
