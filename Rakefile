@@ -41,7 +41,6 @@ task :rerun do
   sh "rerun -c --ignore 'coverage/*' --ignore 'repostore/*' -- bundle exec puma -p 9090"
 end
 
-# rubocop:disable Metrics/BlockLength
 namespace :db do
   task :config do
     require 'sequel'
@@ -213,7 +212,6 @@ namespace :cache do
   end
 end
 
-
 namespace :queues do
   task :config do
     require 'aws-sdk-sqs'
@@ -260,8 +258,6 @@ namespace :queues do
     puts "Error purging queue: #{e}"
   end
 end
-# rubocop:enable Metrics/BlockLength
-
 #  TODO: Add shoryuken
 
 desc 'Run application console'
