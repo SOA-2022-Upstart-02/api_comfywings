@@ -68,6 +68,10 @@ module ComfyWings
       def to_attr_hash
         to_hash.except(:id, :currency, :flights, :origin, :destination)
       end
+
+      def happiness
+        Mapper::TripHappiness.new(self).build_entity
+      end
     end
   end
 end

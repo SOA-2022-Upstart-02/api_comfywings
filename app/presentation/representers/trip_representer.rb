@@ -28,6 +28,7 @@ module ComfyWings
       property :one_way?
       collection :outbound_flights, extend: Representer::Flight, class: OpenStruct
       collection :inbound_flights, extend: Representer::Flight, class: OpenStruct
+      property :happiness, extend: Representer::TripHappiness, class: OpenStruct
 
       # link :self do
       # end
