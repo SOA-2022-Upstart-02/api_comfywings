@@ -45,7 +45,7 @@ module ComfyWings
         origin = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code(trip_request['origin'])
         destination = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code(trip_request['destination'])
 
-        arrival_date = trip_request['is_one_way'] == 'true' ? nil : Date.parse(trip_request['arrival_date'])
+        arrival_date = trip_request['is_one_way'].to_s == 'true' ? nil : Date.parse(trip_request['arrival_date'])
 
         code = Digest::MD5.hexdigest trip_request.to_s
         ComfyWings::Entity::TripQuery.new(
