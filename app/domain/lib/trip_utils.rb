@@ -6,13 +6,16 @@ module ComfyWings
   class TripUtils
     TIME = 'time'
     PRICE = 'price'
+    HAPPYINESS = 'happiness'
 
     def self.sort_trips(trips, sorting)
       case sorting
-      when 'price'
+      when PRICE
         trips.sort_by(&:price)
-      when 'time'
+      when TIME
         trips.sort_by(&:duration_minutes)
+      when HAPPYINESS
+        trips.sort_by { |trip| trip.happiness.score }
       else
         trips
       end

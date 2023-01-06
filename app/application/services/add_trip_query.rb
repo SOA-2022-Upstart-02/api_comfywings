@@ -21,7 +21,6 @@ module ComfyWings
         if new_trip_query.success?
           Success(new_trip_query.value!)
         else
-          #  puts new_trip_query.failure
           Failure(new_trip_query.failure)
         end
       end
