@@ -47,6 +47,10 @@ module ComfyWings
         rebuild_entity(db_trip)
       end
 
+      def self.delete_query_id(query_id)
+        Database::TripOrm.where(query_id:).delete
+      end
+
       def self.create_many(entities)
         entities.map do |entity|
           Trips.create(entity)
