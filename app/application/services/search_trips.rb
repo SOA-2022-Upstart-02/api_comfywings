@@ -65,12 +65,10 @@ module ComfyWings
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR_MSG))
       end
 
-      # Return
       # deliberately :reek:TooManyStatements calling method create_trips_from_amadeus
       # deliberately :reek:DuplicateMethodCall calling method create_trips_from_amadeus
       def create_trips_from_amadeus(input)
-        new_trips = Amadeus::TripMapper.new(App.config.AMADEUS_KEY,
-                                            App.config.AMADEUS_SECRET).search(input[:trip_query])
+        new_trips = Amadeus::TripMapper.new(App.config.AMADEUS_KEY, App.config.AMADEUS_SECRET).search(input[:trip_query])
         update_query_status(input[:trip_query].id)
         ComfyWings::Repository::For.klass(Entity::Trip).create_many(new_trips)
           .then { |trips| ComfyWings::TripUtils.sort_trips(trips, input[:sort]) }
