@@ -44,9 +44,7 @@ module ComfyWings
             http_response = Representer::HttpResponse.new(result.value!)
             response.status = http_response.http_status_code
 
-            Representer::CurrenciesList.new(
-              result.value!.message
-            ).to_json
+            Representer::CurrenciesList.new(result.value!.message).to_json
           end
         end
 
@@ -63,9 +61,7 @@ module ComfyWings
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
-              Representer::Airport.new(
-                result.value!.message
-              ).to_json
+              Representer::Airport.new(result.value!.message).to_json
             end
           end
         end
@@ -83,9 +79,7 @@ module ComfyWings
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
-              Representer::AirportList.new(
-                result.value!.message
-              ).to_json
+              Representer::AirportList.new(result.value!.message).to_json
             end
           end
         end
@@ -126,6 +120,7 @@ module ComfyWings
           # POST /trip_query
           routing.post do
             trip_query = Request::NewTripQuery.new(routing.params.to_json)
+
             result = Service::AddTripQuery.new.call(trip_query)
 
             if result.failure?
@@ -135,6 +130,7 @@ module ComfyWings
 
             http_response = Representer::HttpResponse.new(result.value!)
             response.status = http_response.http_status_code
+
             Representer::TripQuery.new(result.value!.message).to_json
           end
         end

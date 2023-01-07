@@ -64,13 +64,15 @@ describe 'Integration Tests of AMADEUS API and Database' do
     it 'Test Save new TripQuery and find TripQuery code' do
       code = SecureRandom.uuid
       currency = ComfyWings::Repository::For.klass(ComfyWings::Entity::Currency).find_code('TWD')
+      origin = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code('TPE')
+      destination = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code('MAD')
 
       trip_query = ComfyWings::Entity::TripQuery.new(
         id: nil,
         code:,
         currency:,
-        origin: 'TPE',
-        destination: 'MAD',
+        origin:,
+        destination:,
         departure_date: Date.parse('2001-02-03'),
         arrival_date: Date.parse('2001-03-03'),
         adult_qty: 1,
@@ -83,7 +85,7 @@ describe 'Integration Tests of AMADEUS API and Database' do
 
       repository.create(trip_query)
       trip_query = repository.find_code(code)
-      _(trip_query.origin).must_equal('TPE')
+      _(trip_query.origin.iata_code).must_equal('TPE')
       _(trip_query.currency.name).must_equal('New Taiwan dollar')
     end
   end

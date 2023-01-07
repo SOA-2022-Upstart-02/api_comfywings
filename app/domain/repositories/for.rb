@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'trip_queries'
+require_relative 'trips'
 require_relative 'currencies'
 require_relative 'flights'
 
