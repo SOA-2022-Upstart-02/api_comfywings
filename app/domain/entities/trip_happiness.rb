@@ -2,6 +2,7 @@
 
 module ComfyWings
   module Entity
+    # Trip Happiness Entity
     class TripHappiness
       attr_reader :flight_happiness_scores, :total_duration
 

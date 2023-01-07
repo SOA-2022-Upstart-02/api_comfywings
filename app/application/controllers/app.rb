@@ -31,7 +31,7 @@ module ComfyWings
         result_response.to_json
       end
 
-      routing.on 'api' do # rubocop:disable Metrics/BlockLength
+      routing.on 'api' do
         routing.is 'currency/all' do
           routing.get do
             response.cache_control public: true, max_age: 300
