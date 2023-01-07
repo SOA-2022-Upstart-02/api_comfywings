@@ -7,7 +7,7 @@ module ComfyWings
     # Repository for Trip Queries
     class Currencies
       def self.find_id(id)
-        rebuild_entity Database::CurrenacyOrm.first(id:)
+        rebuild_entity Database::CurrencyOrm.first(id:)
       end
 
       def self.find_code(code)
