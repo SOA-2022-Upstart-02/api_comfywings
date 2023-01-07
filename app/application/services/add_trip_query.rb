@@ -42,6 +42,9 @@ module ComfyWings
 
       def create_trip_query_entity(trip_request) # rubocop:disable Metrics
         currency = ComfyWings::Repository::For.klass(ComfyWings::Entity::Currency).find_code(trip_request['currency'])
+        origin = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code(trip_request['origin'])
+        destination = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code(trip_request['destination'])
+
         code = Digest::MD5.hexdigest trip_request.to_s
         is_one_way = trip_request['is_one_way'].to_s == 'true'
 
@@ -49,8 +52,8 @@ module ComfyWings
           id: nil,
           code:,
           currency:,
-          origin: trip_request['origin'],
-          destination: trip_request['destination'],
+          origin:,
+          destination:,
           departure_date: Date.parse(trip_request['departure_date']),
           arrival_date: is_one_way ? nil : Date.parse(trip_request['arrival_date']),
           adult_qty: trip_request['adult_qty'].to_i,

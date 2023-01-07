@@ -59,12 +59,12 @@ module ComfyWings
         end
 
         def origin
-          iata_code = @trip_query.origin
+          iata_code = @trip_query.origin.iata_code
           ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code(iata_code)
         end
 
         def destination
-          iata_code = @trip_query.destination
+          iata_code = @trip_query.destination.iata_code
           ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code(iata_code)
         end
 
