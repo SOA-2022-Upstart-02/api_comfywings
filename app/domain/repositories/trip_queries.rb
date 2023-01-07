@@ -59,7 +59,7 @@ module ComfyWings
 
       def self.rebuild_many(db_records)
         db_records.map do |db_member|
-          SingleTripQueries.rebuild_entity(db_member)
+          TripQueries.rebuild_entity(db_member)
         end
       end
     end

@@ -43,7 +43,8 @@ module ComfyWings
       def create_trip_query_entity(trip_request) # rubocop:disable Metrics
         currency = ComfyWings::Repository::For.klass(ComfyWings::Entity::Currency).find_code(trip_request['currency'])
         origin = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code(trip_request['origin'])
-        destination = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport).find_code(trip_request['destination'])
+        destination = ComfyWings::Repository::For.klass(ComfyWings::Entity::Airport)
+          .find_code(trip_request['destination'])
 
         code = Digest::MD5.hexdigest trip_request.to_s
         is_one_way = trip_request['is_one_way'].to_s == 'true'

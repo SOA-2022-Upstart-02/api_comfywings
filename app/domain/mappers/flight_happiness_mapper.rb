@@ -2,6 +2,7 @@
 
 module ComfyWings
   module Mapper
+    # FlightHappiness Mapper
     class FlightHappiness
       def initialize(flight)
         @plane_model = flight.aircraft
