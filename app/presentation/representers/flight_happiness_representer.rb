@@ -10,6 +10,7 @@ module ComfyWings
       include Roar::JSON
 
       property :score
+      property :plane_class
     end
   end
 end
