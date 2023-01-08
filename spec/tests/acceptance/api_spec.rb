@@ -26,7 +26,7 @@ describe 'Test API routes' do
   describe 'Search trips route' do
     it 'should be able to find trips' do
       ComfyWings::Database::TripQueryOrm
-        .insert(currency_id: 2, code: QUERY_CODE, origin: 'TPE', destination: 'MAD',
+        .insert(currency_id: 2, code: QUERY_CODE, origin_id: 1592, destination_id: 902,
                 departure_date: Date.parse('2023-02-11'), arrival_date: Date.parse('2023-02-28'),
                 adult_qty: 1, children_qty: 2, is_one_way: false, is_new: true)
 
