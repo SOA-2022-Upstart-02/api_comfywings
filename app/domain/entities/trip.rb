@@ -24,6 +24,11 @@ module ComfyWings
         ActiveSupport::Duration.parse(outbound_duration).parts
       end
 
+      def duration_minutes
+        outbound_minutes = ActiveSupport::Duration.parse(outbound_duration).in_minutes
+        is_one_way ? outbound_minutes : outbound_minutes + ActiveSupport::Duration.parse(inbound_duration).in_minutes
+      end
+
       def outbound_flights
         flights.reject(&:is_return)
       end
@@ -37,7 +42,7 @@ module ComfyWings
       end
 
       def inbound_duration_form
-        ActiveSupport::Duration.parse(inbound_duration).parts
+        is_one_way ? nil : ActiveSupport::Duration.parse(inbound_duration).parts
       end
 
       def inbound_flights
@@ -45,11 +50,11 @@ module ComfyWings
       end
 
       def inbound_departure_time
-        inbound_flights.first.departure_time
+        is_one_way ? nil : inbound_flights.first.departure_time
       end
 
       def inbound_arrival_time
-        inbound_flights.last.arrival_time
+        is_one_way ? nil : inbound_flights.last.arrival_time
       end
 
       def price_form

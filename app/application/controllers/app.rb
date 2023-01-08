@@ -31,7 +31,7 @@ module ComfyWings
         result_response.to_json
       end
 
-      routing.on 'api' do # rubocop:disable Metrics/BlockLength
+      routing.on 'api' do
         routing.is 'currency/all' do
           routing.get do
             response.cache_control public: true, max_age: 300
@@ -44,9 +44,7 @@ module ComfyWings
             http_response = Representer::HttpResponse.new(result.value!)
             response.status = http_response.http_status_code
 
-            Representer::CurrenciesList.new(
-              result.value!.message
-            ).to_json
+            Representer::CurrenciesList.new(result.value!.message).to_json
           end
         end
 
@@ -63,9 +61,7 @@ module ComfyWings
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
-              Representer::Airport.new(
-                result.value!.message
-              ).to_json
+              Representer::Airport.new(result.value!.message).to_json
             end
           end
         end
@@ -83,9 +79,7 @@ module ComfyWings
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
-              Representer::AirportList.new(
-                result.value!.message
-              ).to_json
+              Representer::AirportList.new(result.value!.message).to_json
             end
           end
         end
@@ -94,7 +88,7 @@ module ComfyWings
           routing.on String do |query_code|
             # GET /trips/{query_code}
             routing.get do
-              result = Service::SearchTrips.new.call(query_code)
+              result = Service::SearchTrips.new.call(query_code:, sort: routing.params['sorting'])
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)
                 routing.halt failed.http_status_code, failed.to_json
@@ -106,6 +100,19 @@ module ComfyWings
                 result.value!.message
               ).to_json
             end
+
+            routing.put do
+              routing.is 'update' do
+                result = Service::UpdateTrip.new.call(query_code)
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+                http_response.to_json
+              end
+            end
           end
         end
 
@@ -113,6 +120,7 @@ module ComfyWings
           # POST /trip_query
           routing.post do
             trip_query = Request::NewTripQuery.new(routing.params.to_json)
+
             result = Service::AddTripQuery.new.call(trip_query)
 
             if result.failure?
@@ -122,11 +130,12 @@ module ComfyWings
 
             http_response = Representer::HttpResponse.new(result.value!)
             response.status = http_response.http_status_code
+
             Representer::TripQuery.new(result.value!.message).to_json
           end
         end
       end
-      # rubocop:enable Metrics/BlockLength
     end
+     # rubocop:enable Metrics/BlockLength
   end
 end

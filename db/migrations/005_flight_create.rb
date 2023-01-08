@@ -6,7 +6,7 @@ Sequel.migration do
   change do
     create_table(:flights) do
       primary_key    :id
-      foreign_key    :trip_id,        :trips
+      foreign_key    :trip_id,        :trips, on_delete: :cascade
       foreign_key    :origin_id,      :airports
       foreign_key    :destination_id, :airports
       Time           :departure_time

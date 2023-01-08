@@ -81,4 +81,7 @@ group :development do
   gem 'rubocop'
 end
 
+# xml 
+gem 'nokogiri'
+
 gem 'activesupport', '~> 7.0.4'

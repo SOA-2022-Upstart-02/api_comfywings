@@ -4,6 +4,7 @@ require 'date'
 require 'dry-struct'
 require 'dry-types'
 
+Dry::Types.load_extensions(:maybe)
 module ComfyWings
   # ComfyWings Domain Modal
   module Entity
@@ -14,10 +15,10 @@ module ComfyWings
       attribute :id,             Integer.optional
       attribute :code,           Strict::String
       attribute :currency,       Currency
-      attribute :origin,         Strict::String
-      attribute :destination,    Strict::String
+      attribute :origin,         Airport
+      attribute :destination,    Airport
       attribute :departure_date, Strict::Date
-      attribute :arrival_date,   Strict::Date
+      attribute :arrival_date,   Date.optional
       attribute :adult_qty,      Strict::Integer
       attribute :children_qty,   Strict::Integer
       attribute :is_one_way,     Strict::Bool
@@ -38,7 +39,7 @@ module ComfyWings
       end
 
       def to_attr_hash
-        to_hash.except(:id, :currency)
+        to_hash.except(:id, :currency, :origin, :destination)
       end
 
       private
@@ -46,8 +47,8 @@ module ComfyWings
       def create_outbound_destinations
         {
           id: 1,
-          originLocationCode: origin,
-          destinationLocationCode: destination,
+          originLocationCode: origin.iata_code,
+          destinationLocationCode: destination.iata_code,
           departureDateTimeRange: {
             date: departure_date
           }
@@ -57,8 +58,8 @@ module ComfyWings
       def create_inbound_destinations
         {
           id: 2,
-          originLocationCode: destination,
-          destinationLocationCode: origin,
+          originLocationCode: destination.iata_code,
+          destinationLocationCode: origin.iata_code,
           departureDateTimeRange: {
             date: arrival_date
           }
@@ -76,10 +77,6 @@ module ComfyWings
       def create_child_travelers
         (1..children_qty).map { |num| { id: num + adult_qty, travelerType: 'CHILD' } }
       end
-    end
-
-    def f1
-      puts Date.today
     end
   end
 end

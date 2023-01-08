@@ -4,10 +4,10 @@ require_relative 'flight_happiness_mapper'
 
 module ComfyWings
   module Mapper
+    # TripHappiness Mapper
     class TripHappiness
-
       attr_reader :no_of_flights, :flights
-      
+
       def initialize(trip)
         @flights = trip.flights
         @no_of_flights = trip.flights.length
@@ -20,7 +20,6 @@ module ComfyWings
 
         Entity::TripHappiness.new(flight_array)
       end
-
     end
   end
 end
