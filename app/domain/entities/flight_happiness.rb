@@ -29,6 +29,16 @@ module ComfyWings
         NARROWBODY_PLANES === @plane_model
       end
 
+      def plane_class
+        if widebody?
+          'widebody'
+        elsif narrowbody?
+          'narrowbody'
+        else
+          'unknown'
+        end
+      end
+
       def duration_to_hours
         duration[:minutes] ? (duration[:hours] + (duration[:minutes] / ONE_HOUR)) : duration[:hours]
       end
