@@ -7,7 +7,8 @@ module ComfyWings
   module Service
     # Obtain airport information
     class SearchAirport
-      include Dry::Transaction
+      # Service object has only one step, we include result mixin instead
+      include Dry::Monads::Result::Mixin
 
       step :search_airport
 

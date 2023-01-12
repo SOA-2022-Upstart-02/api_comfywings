@@ -7,7 +7,8 @@ module ComfyWings
   module Service
     # Retrieves array of all currencies
     class RetrieveCurrencies
-      include Dry::Transaction
+      # Service object has only one step, we include result mixin instead
+      include Dry::Monads::Result::Mixin
 
       step :retrieve_all
 
